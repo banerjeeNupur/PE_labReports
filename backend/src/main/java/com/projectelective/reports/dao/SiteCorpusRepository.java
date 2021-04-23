@@ -19,5 +19,9 @@ public interface SiteCorpusRepository extends JpaRepository<SiteCorpus, Long> {
 
         Page<SiteCorpus> findAllBySiteContaining(@RequestParam("site") String site, Pageable pageable );
 
+        SiteCorpus findBySite(SiteCorpus site);
+
+        boolean existsBySite(String site);
+
 //        List<SiteCorpus> findAllBySiteContaining(String site);
 }
