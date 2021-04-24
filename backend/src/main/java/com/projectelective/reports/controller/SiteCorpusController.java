@@ -4,11 +4,13 @@ import com.projectelective.reports.entity.SiteCorpus;
 import com.projectelective.reports.entity.SiteReports;
 import com.projectelective.reports.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class SiteCorpusController {
 
     @Autowired
