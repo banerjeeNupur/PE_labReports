@@ -42,8 +42,10 @@ public class SiteCorpusController {
         System.out.println("controller : add report\n"+reports);
         System.out.println("site is: \n"+reports.getSite());
         System.out.println("report is: \n"+reports.getReport());
+        System.out.println("report ID is: \n"+reports.getId());
         // remove the entry from annotate
-        int item = annotateService.deleteRep(reports.getReport());
+//        int item = annotateService.deleteRep(reports.getReport());
+        int item = annotateService.deleteRep(reports.getId());
         System.out.println("items removed : "+item);
 
         siteService.saveSite(reports.getSite());

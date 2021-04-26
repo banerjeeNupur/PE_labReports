@@ -10,8 +10,8 @@ public class AnnotateService {
     @Autowired
     private AnnotateRepository annotateRepository;
 
-    public int deleteRep(String rep){
+    public int deleteRep(Long id){
         System.out.println("attempting to delete record from annotate ");
-        return annotateRepository.deleteAllByReport(rep);
+        return annotateRepository.deleteAllById(id);
     }
 }

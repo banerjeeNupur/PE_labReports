@@ -9,5 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public interface AnnotateRepository extends JpaRepository<Annotate, Long> {
 
     @Transactional
-    int deleteAllByReport(String rep);
+//    int deleteAllByReport(String rep);
+    int deleteAllById(Long id);
 }
