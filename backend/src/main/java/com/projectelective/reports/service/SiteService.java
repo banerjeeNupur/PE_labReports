@@ -39,4 +39,9 @@ public class SiteService {
         System.out.println("start site report service");
         return siteReportsRepository.save(reports);
     }
+
+    // delete report
+    public void deleteReport(Long id){
+        siteReportsRepository.deleteById(id);
+    }
 }

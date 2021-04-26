@@ -20,12 +20,6 @@ public class SiteCorpusController {
     @Autowired
     private AnnotateService annotateService;
 
-//    @PostMapping("/addSite")
-//    public SiteCorpus addSite(@RequestBody  SiteCorpus site){
-//        System.out.println("start controller\n"+ site);
-//        return siteService.saveSite(site);
-//
-//    }
 
     // update corpus_site and repos
     @PostMapping("/addReport")
@@ -50,5 +44,18 @@ public class SiteCorpusController {
 
         siteService.saveSite(reports.getSite());
         return  siteService.saveReport(reports);
+    }
+
+    @PostMapping("/updateReportSite")
+    public SiteReports updateReportSite(@RequestBody SiteReports reports){
+        System.out.println("report received : "+reports);
+
+        // delete the current report
+        siteService.deleteReport(reports.getId());
+
+        // save the new report
+        addReport(reports);
+
+        return null;
     }
 }

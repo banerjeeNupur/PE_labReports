@@ -12,4 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SiteReportsRepository extends JpaRepository<SiteReports, Long> {
 
     Page<SiteReports> findAllBySiteContaining(@RequestParam("site") String site, Pageable pageable );
+
+    @Override
+    void deleteById(Long id);
 }
