@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+
+
+
+<!-- <form>
+
+    <div class="form-group">
+
+        <div class="row mt-5 mr-5 pl-5">
+
+            <div class="col">
+                <label class="label">Site</label>
+                <input type="text" class="form-control" name="input_site" [(ngModel)]="input_site" placeholder="Site">
+            </div>
+        </div>
+        <div class="row mt-5 mr-5 pl-5">
+
+            <div class="col">
+                <label class="label">Report</label>
+                <input type="textarea" class="form-control" name="input_report" [(ngModel)]="input_report" placeholder="Report">
+            </div>
+        </div>
+        <div class="row mt-5 ml-1 pl-5">
+            <button type="button" class="btn btn-info" (click)='upload()'>Submit</button>
+        </div>
+    </div>
+</form> -->
+
+<form>
+
+    <div class="form-group p-5 m-5">
+
+        <div class="input-group mb-5">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Site</span>
+            </div>
+            <input type="text" class="form-control" name="input_site" [(ngModel)]="input_site">
+        </div>
+
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Report</span>
+            </div>
+            <textarea class="form-control" name="input_report" [(ngModel)]="input_report"></textarea>
+        </div>
+
+
+        <button type="button" class="btn btn-info mt-3 float-right" (click)='upload()'>Submit</button>
+
+    </div>
+</form>
+
+<div>
+    {{message}}
+</div> 
