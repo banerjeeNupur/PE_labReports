@@ -18,13 +18,14 @@ public class FileDB {
     private String type;
 
 //    @Lob
-    private byte[] data;
+//    private byte[] data;
+    private String data;
 
     public FileDB() {
     }
 
-//    byte[]
-    public FileDB(String name, String type, byte[] data) {
+
+    public FileDB(String name, String type, String data) {
         this.name = name;
         this.type = type;
         this.data = data;
@@ -50,11 +51,11 @@ public class FileDB {
         this.type = type;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(String data) {
         this.data = data;
     }
 }

@@ -33,7 +33,7 @@ public class FileController {
             // if site found : site, report
             // if site not found : undefined, report
 
-            // send count of the number of files that had site detected
+            // send count of the number of files that had site
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
@@ -54,15 +54,15 @@ public class FileController {
             return new ResponseFile(
                     dbFile.getName(),
                     fileDownloadUri,
-                    dbFile.getType(),
-                    dbFile.getData().length);
+                    dbFile.getType());
+//                    dbFile.getData().length);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
     @GetMapping("/files/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String id) {
+    public ResponseEntity<String> getFile(@PathVariable String id) {
         FileDB fileDB = storageService.getFile(id);
 
         return ResponseEntity.ok()

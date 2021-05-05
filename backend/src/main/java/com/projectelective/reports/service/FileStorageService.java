@@ -25,11 +25,12 @@ public class FileStorageService {
     public FileDB store(MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
+//        FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
 
         byte[] bytes = file.getBytes();
         String blobString = new String(bytes);
         System.out.println("----converting blob to text -----"+blobString);
+        FileDB FileDB = new FileDB(fileName, file.getContentType(), blobString);
         return fileDBRepository.save(FileDB);
     }
 
