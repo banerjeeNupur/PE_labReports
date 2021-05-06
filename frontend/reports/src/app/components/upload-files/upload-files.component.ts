@@ -51,9 +51,7 @@ export class UploadFilesComponent implements OnInit {
   ngOnInit() {
     this.uploadFiles()
     // this is new content
-    // this.fileInfos = this.uploadService.getFiles();
-
-    
+    // this.fileInfos = this.uploadService.getFiles();  
   }
 
 }
