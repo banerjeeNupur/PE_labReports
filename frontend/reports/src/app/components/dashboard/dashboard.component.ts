@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   async listSites(){
     const response = await this.siteService.getSiteList();
     this.site = await response._embedded.siteCorpuses;
-    
+    console.log('site length is: ',this.site.length)
   }
 
   // filter based on user input
