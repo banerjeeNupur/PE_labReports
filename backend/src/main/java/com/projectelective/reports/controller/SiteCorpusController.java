@@ -56,6 +56,6 @@ public class SiteCorpusController {
         // save the new report
         addReport(reports);
 
-        return null;
+        return reports;
     }
 }

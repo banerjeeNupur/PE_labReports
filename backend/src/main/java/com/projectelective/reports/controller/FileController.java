@@ -32,7 +32,7 @@ public class FileController {
 
         System.out.println("running python");
         try{
-            Runtime.getRuntime().exec("python3"+" "+"findsite.py");
+            Runtime.getRuntime().exec("python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py");
             System.out.println("executed");
         }
         catch(Exception e){
@@ -40,10 +40,13 @@ public class FileController {
             e.printStackTrace();
         }
     }
+
+
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
+            System.out.println("file is : "+file.getOriginalFilename());
             storageService.store(file);
             // call the python script here : update DB
             // if site found : site, report
@@ -59,32 +62,32 @@ public class FileController {
         }
     }
 
-    @GetMapping("/files")
-    public ResponseEntity<List<ResponseFile>> getListFiles() {
-        List<ResponseFile> files = storageService.getAllFiles().map(dbFile -> {
-            String fileDownloadUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/files/")
-                    .path(dbFile.getId())
-                    .toUriString();
+//    @GetMapping("/files")
+//    public ResponseEntity<List<ResponseFile>> getListFiles() {
+//        List<ResponseFile> files = storageService.getAllFiles().map(dbFile -> {
+//            String fileDownloadUri = ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/files/")
+//                    .path(dbFile.getId())
+//                    .toUriString();
+//
+//            return new ResponseFile(
+//                    dbFile.getName(),
+//                    fileDownloadUri,
+//                    dbFile.getType());
+////                    dbFile.getData().length);
+//        }).collect(Collectors.toList());
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(files);
+//    }
 
-            return new ResponseFile(
-                    dbFile.getName(),
-                    fileDownloadUri,
-                    dbFile.getType());
-//                    dbFile.getData().length);
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(files);
-    }
-
-    @GetMapping("/files/{id}")
-    public ResponseEntity<String> getFile(@PathVariable String id) {
-        FileDB fileDB = storageService.getFile(id);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-                .body(fileDB.getData());
-    }
+//    @GetMapping("/files/{id}")
+//    public ResponseEntity<String> getFile(@PathVariable String id) {
+//        FileDB fileDB = storageService.getFile(id);
+//
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+//                .body(fileDB.getData());
+//    }
 
 }

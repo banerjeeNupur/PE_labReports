@@ -13,7 +13,7 @@ export class UploadFilesComponent implements OnInit {
   selectedFiles: FileList;
   progressInfos = [];
   message = '';
-
+ 
   fileInfos: Observable<any>;
 
   constructor(private uploadService: UploadFilesService) { }
@@ -25,10 +25,13 @@ export class UploadFilesComponent implements OnInit {
 
   uploadFiles() {
     this.message = '';
-  
+
     for (let i = 0; i < this.selectedFiles.length; i++) {
+
       this.upload(i, this.selectedFiles[i]);
     }
+
+    this.message = 'tadaaa!'
   }
   
   upload(idx, file) {
@@ -39,7 +42,9 @@ export class UploadFilesComponent implements OnInit {
         if (event.type === HttpEventType.UploadProgress) {
           this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
-          this.fileInfos = this.uploadService.getFiles();
+          // this.fileInfos = this.uploadService.getFiles();
+          // display the count of files that couldn't be parsed
+
         }
       },
       err => {

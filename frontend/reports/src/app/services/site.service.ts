@@ -62,6 +62,7 @@ export class SiteService {
     return this.httpClient.post('http://localhost:8080/updateReportSite',this.new_rep,
     {responseType: 'text' as 'json'});
 
+   
     
   }
 
