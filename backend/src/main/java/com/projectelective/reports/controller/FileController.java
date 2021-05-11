@@ -32,7 +32,9 @@ public class FileController {
 
         System.out.println("running python");
         try{
-            Runtime.getRuntime().exec("python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py");
+            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py");
+//            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"../../../../../../../../findsite.py");
+            //p.destroy();
             System.out.println("executed");
         }
         catch(Exception e){

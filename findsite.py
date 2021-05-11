@@ -9,6 +9,7 @@ mycursor = mydb.cursor()
 mycursor.execute("SELECT * FROM files")
 reports_to_update = mycursor.fetchall()
 
+# ---------------------------
 mycursor.execute("SELECT * FROM corpus_site")
 corpus = mycursor.fetchall()
 print('length of corpus: ',len(corpus))
@@ -16,6 +17,9 @@ mycursor.execute("SELECT * FROM biopsy")
 biopsy = mycursor.fetchall()
 # print(corpus[0][0])
 # remove \n \t. (L) and (R) with left, right. converted to lowercase. 
+
+
+# ----------------------------
 def clean(i):
   data = i.replace("\n"," ").replace("\t"," ").replace('(L)','left').replace('(R)','right').replace('(',' ').replace(')',' ').replace(',',' ')
   data = data.lower()
@@ -78,11 +82,24 @@ def get_loc(biopsy,corpus,final_data):
 # if locData length > 0 : report was successfully parsed, i.e, site found. return (report,site) to java.
 # if locData == 0 : return (report,'undefined').
 
+
+# ----------------------------------------
+
 processed_corpus=[tup[1] for tup in corpus]
 processed_biopsy=[tup[1] for tup in biopsy]
 
-print('processed corpus:')
-print(processed_corpus)
+# ----------------------------------------
+
+#print('processed corpus:')
+#print(processed_corpus)
+
+
+# -------------- nope
+
+f = open("/home/nupur/Desktop/PE/code/res.txt", "w")
+f.write("Now the file has more content!")
+f.close()
+
 
 for tup in reports_to_update:	
   data=tup[1]
@@ -119,9 +136,8 @@ sql = "TRUNCATE TABLE files;"
 mycursor.execute(sql)
 mydb.commit()
 
-f = open("res.txt", "a")
-f.write("Now the file has more content!")
-f.close()
 
 print('deleted data from files.')
+
+
 
