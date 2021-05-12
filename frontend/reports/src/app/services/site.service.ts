@@ -22,7 +22,7 @@ export class SiteService {
   pageUrl:any;
   report:Report = new Report();
 
-  constructor(private httpClient : HttpClient, private router: Router) { }
+  constructor(private httpClient : HttpClient,  private router: Router) { }
   private baseUrl = 'http://localhost:8080/api/siteCorpuses';
 
 

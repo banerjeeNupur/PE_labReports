@@ -34,12 +34,6 @@ export class UploadFilesComponent implements OnInit {
       console.log('inital is: ', this.undefinedSite_inital)
     });
 
-    // setTimeout(() => { 
-    //   this.message = '';
-    //   for (let i = 0; i < this.selectedFiles.length; i++) {
-    //       this.upload(i, this.selectedFiles[i]);
-    //   }
-    // }, 2000);
     console.log(this.selectedFiles)
     this.message = '';
       for (let i = 0; i < this.selectedFiles.length; i++) {
@@ -77,6 +71,9 @@ export class UploadFilesComponent implements OnInit {
       });
   }
 
+  parseFiles(){
+    this.uploadService.parseFiles()
+  }
   
   ngOnInit() {}
 

@@ -31,25 +31,18 @@ public class FileController {
     @Autowired
     private SiteReportsRepository siteReportsRepository;
 
-
     public void runPython(){
-
-
 
         System.out.println("running python");
         try{
-//            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py");
             Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py").waitFor();
-
             System.out.println("executed");
-
         }
         catch(Exception e){
             System.out.println("not executed");
             e.printStackTrace();
         }
     }
-
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -58,13 +51,6 @@ public class FileController {
         try {
             System.out.println("file is : "+file.getOriginalFilename());
             storageService.store(file);
-       
-            FileController obj = new FileController();
-
-            System.out.println("before python call");
-            obj.runPython();
-            System.out.println("after python call");
-
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
@@ -73,32 +59,12 @@ public class FileController {
         }
     }
 
-//    @GetMapping("/files")
-//    public ResponseEntity<List<ResponseFile>> getListFiles() {
-//        List<ResponseFile> files = storageService.getAllFiles().map(dbFile -> {
-//            String fileDownloadUri = ServletUriComponentsBuilder
-//                    .fromCurrentContextPath()
-//                    .path("/files/")
-//                    .path(dbFile.getId())
-//                    .toUriString();
-//
-//            return new ResponseFile(
-//                    dbFile.getName(),
-//                    fileDownloadUri,
-//                    dbFile.getType());
-////                    dbFile.getData().length);
-//        }).collect(Collectors.toList());
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(files);
-//    }
-
-//    @GetMapping("/files/{id}")
-//    public ResponseEntity<String> getFile(@PathVariable String id) {
-//        FileDB fileDB = storageService.getFile(id);
-//
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-//                .body(fileDB.getData());
-//    }
-
+    @GetMapping("/parse")
+    public ResponseEntity<Integer> parseFiles(){
+        FileController obj = new FileController();
+        System.out.println("before python call");
+        obj.runPython();
+        System.out.println("after python call");
+        return new ResponseEntity<>(1,HttpStatus.OK);
+    }
 }
