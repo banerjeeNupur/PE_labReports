@@ -1,5 +1,6 @@
 package com.projectelective.reports.controller;
 
+import com.projectelective.reports.dao.SiteReportsRepository;
 import com.projectelective.reports.entity.FileDB;
 import com.projectelective.reports.message.ResponseFile;
 import com.projectelective.reports.message.ResponseMessage;
@@ -27,8 +28,16 @@ public class FileController {
 
     @Autowired
     private FileStorageService storageService;
+    @Autowired
+    private SiteReportsRepository siteReportsRepository;
 
+//    public Integer getCount(){
+//        System.out.println("get count");
+//        return  siteReportsRepository.findAllBySiteEquals("undefined").size();
+//    }
     public void runPython(){
+
+
 
         System.out.println("running python");
         try{
@@ -36,6 +45,7 @@ public class FileController {
 //            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"../../../../../../../../findsite.py");
             //p.destroy();
             System.out.println("executed");
+
         }
         catch(Exception e){
             System.out.println("not executed");
@@ -54,8 +64,13 @@ public class FileController {
             // if site found : site, report
             // if site not found : undefined, report
             FileController obj = new FileController();
+            //Integer a = obj.getCount();
+            System.out.println("before python call");
             obj.runPython();
-
+            System.out.println("after python call");
+//            Integer b = obj.getCount();
+//            Integer c = b-a;
+//            System.out.println("difference : "+c);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {

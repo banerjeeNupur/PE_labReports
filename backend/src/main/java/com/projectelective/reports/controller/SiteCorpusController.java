@@ -5,11 +5,10 @@ import com.projectelective.reports.entity.SiteReports;
 import com.projectelective.reports.service.AnnotateService;
 import com.projectelective.reports.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
 @RestController
 @CrossOrigin("http://localhost:4200")
 public class SiteCorpusController {
@@ -58,4 +57,11 @@ public class SiteCorpusController {
 
         return reports;
     }
+
+    @GetMapping("/getUndefined")
+    public ResponseEntity<Integer> getUndefinedSites(){
+        Integer count = siteService.getUndefinedSites();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
 }

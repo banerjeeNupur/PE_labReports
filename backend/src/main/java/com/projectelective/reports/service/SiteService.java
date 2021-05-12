@@ -5,9 +5,10 @@ import com.projectelective.reports.dao.SiteReportsRepository;
 import com.projectelective.reports.entity.SiteCorpus;
 import com.projectelective.reports.entity.SiteReports;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import java.util.*;
 @Service
 public class SiteService {
 
@@ -43,5 +44,10 @@ public class SiteService {
     // delete report
     public void deleteReport(Long id){
         siteReportsRepository.deleteById(id);
+    }
+
+    public Integer getUndefinedSites(){
+        Integer c =  siteReportsRepository.findAllBySiteEquals("undefined").size();
+        return c;
     }
 }

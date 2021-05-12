@@ -60,12 +60,21 @@ export class SiteService {
 
     console.log('updated report will be --------',this.new_rep)
     return this.httpClient.post('http://localhost:8080/updateReportSite',this.new_rep,
-    {responseType: 'text' as 'json'});
-
-   
-    
+    {responseType: 'text' as 'json'});  
   }
 
+  count:any
+  async getUndefinedSiteCount(){
+    // let urlUndef = 'http://localhost:8080/getUndefined'
+    // return this.httpClient.get(urlUndef, )  
+    await this.httpClient.get('http://localhost:8080/getUndefined').toPromise()
+    .then((response) => {
+        this.count = response;
+        
+      });
+    return this.count
+    // console.log(this.count)
+  }
 
 
   
