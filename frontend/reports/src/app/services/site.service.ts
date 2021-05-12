@@ -78,13 +78,14 @@ export class SiteService {
     await this.httpClient.get('http://localhost:8080/getUndefined').toPromise()
     .then((response) => {
         this.count = response;
-        
+        console.log('service: ',response)  
       }).catch(
         error => {
           console.log('error message: ',error)
           this.router.navigate(['/error']);
         }
       );
+
     return this.count
   
   }

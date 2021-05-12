@@ -31,19 +31,16 @@ public class FileController {
     @Autowired
     private SiteReportsRepository siteReportsRepository;
 
-//    public Integer getCount(){
-//        System.out.println("get count");
-//        return  siteReportsRepository.findAllBySiteEquals("undefined").size();
-//    }
+
     public void runPython(){
 
 
 
         System.out.println("running python");
         try{
-            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py");
-//            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"../../../../../../../../findsite.py");
-            //p.destroy();
+//            Process p = Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py");
+            Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/findsite.py").waitFor();
+
             System.out.println("executed");
 
         }
@@ -57,20 +54,17 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
+        System.out.println("in upload file");
         try {
             System.out.println("file is : "+file.getOriginalFilename());
             storageService.store(file);
-            // call the python script here : update DB
-            // if site found : site, report
-            // if site not found : undefined, report
+       
             FileController obj = new FileController();
-            //Integer a = obj.getCount();
+
             System.out.println("before python call");
             obj.runPython();
             System.out.println("after python call");
-//            Integer b = obj.getCount();
-//            Integer c = b-a;
-//            System.out.println("difference : "+c);
+
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {

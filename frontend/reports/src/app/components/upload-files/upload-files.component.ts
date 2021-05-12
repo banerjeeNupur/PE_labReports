@@ -14,56 +14,61 @@ export class UploadFilesComponent implements OnInit {
   selectedFiles: FileList;
   progressInfos = [];
   message = '';
- 
+  undefinedSite_inital : number
+  undefinedSite_final : number
   fileInfos: Observable<any>;
 
   constructor(private uploadService: UploadFilesService, private siteService: SiteService) { }
 
   selectFiles(event) {
+    this.undefinedSite_inital = 0
+    console.log('inital : ',this.undefinedSite_inital)
     this.progressInfos = [];
     this.selectedFiles = event.target.files;
   }
 
-  async uploadFiles() {
-
+  uploadFiles() {
     
+    this.siteService.getUndefinedSiteCount().then((response) => {
+      this.undefinedSite_inital = response;
+      console.log('inital is: ', this.undefinedSite_inital)
+    });
+
+    // setTimeout(() => { 
+    //   this.message = '';
+    //   for (let i = 0; i < this.selectedFiles.length; i++) {
+    //       this.upload(i, this.selectedFiles[i]);
+    //   }
+    // }, 2000);
+    console.log(this.selectedFiles)
     this.message = '';
-
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-
-      this.upload(i, this.selectedFiles[i]);
-    }
-
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+          setTimeout(() => {
+            this.upload(i, this.selectedFiles[i]);
+            console.log('loop number: ',i)
+          },3000)
+      }
     this.message = ''
-    // this.siteService.getUndefinedSiteCount().then((response) => {
-    //   this.undefinedSite_final = response;
-      
-    //   console.log('final update: ', this.undefinedSite_inital)
-    //   this.message = (this.undefinedSite_final - this.undefinedSite_inital).toString()
-    // });
-
-
-
   }
   
   upload(idx, file) {
+    
     this.progressInfos[idx] = { value: 0, fileName: file.name };
-  
     this.uploadService.upload(file).subscribe(
       event => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
-        } else if (event instanceof HttpResponse) {
-          // this.fileInfos = this.uploadService.getFiles();
-          // display the count of files that couldn't be parsed
-          console.log('in response section')
           
-          this.siteService.getUndefinedSiteCount().then((response) => {
-            this.undefinedSite_final = response;
+        } else if (event instanceof HttpResponse) {
+                 
+          setTimeout(() => { 
             
+            this.siteService.getUndefinedSiteCount().then((response) => {
+            this.undefinedSite_final = response;            
             console.log('final is: ', this.undefinedSite_final )
-            this.message = (this.undefinedSite_final - this.undefinedSite_inital).toString()
-          });  
+            this.message = (this.undefinedSite_final - this.undefinedSite_inital).toString() + ' files didn\'t have site mentioned'
+            document.getElementById('div_upload').style.display = "block"
+          }); }, 1000);
         }
       },
       err => {
@@ -72,30 +77,7 @@ export class UploadFilesComponent implements OnInit {
       });
   }
 
-  undefinedSite_inital : number
-  undefinedSite_final : number
-  ngOnInit() {
-
-    // call a function here that counts the number of undefined
-    this.siteService.getUndefinedSiteCount().then((response) => {
-      this.undefinedSite_inital = response;
-      console.log('inital is: ', this.undefinedSite_inital)
-    });
-
-    this.uploadFiles()
-
-    // final still gets the previous value ---------------------
-    // this.uploadFiles().then((response) => {
-    //   this.siteService.getUndefinedSiteCount().then((response) => {
-    //     this.undefinedSite_final = response;
-        
-    //     console.log('final update: ', this.undefinedSite_final - this.undefinedSite_inital)
-    //     this.message = (this.undefinedSite_final - this.undefinedSite_inital).toString()
-    //   });  
-    // });
-        
-    // this is new content
-    // this.fileInfos = this.uploadService.getFiles();  
-  }
+  
+  ngOnInit() {}
 
 }

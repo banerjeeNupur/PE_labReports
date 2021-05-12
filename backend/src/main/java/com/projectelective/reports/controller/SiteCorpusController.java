@@ -61,6 +61,7 @@ public class SiteCorpusController {
     @GetMapping("/getUndefined")
     public ResponseEntity<Integer> getUndefinedSites(){
         Integer count = siteService.getUndefinedSites();
+        System.out.println("count : "+count);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
