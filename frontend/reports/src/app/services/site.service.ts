@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { Subject } from 'rxjs';
 import { Report } from '../common/report';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class SiteService {
   pageUrl:any;
   report:Report = new Report();
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient, private router: Router) { }
   private baseUrl = 'http://localhost:8080/api/siteCorpuses';
 
 
@@ -30,7 +31,12 @@ export class SiteService {
     await this.httpClient.get(this.baseUrl).toPromise()
       .then((response) => {
         this.getSiteListData = response;
-      });
+      }).catch(
+        error => {
+          console.log('error message: ',error)
+          this.router.navigate(['/error']);
+        }
+      )
     return this.getSiteListData;
   }
 
@@ -40,16 +46,19 @@ export class SiteService {
     // await this.httpClient.get(`http://localhost:8080/api/siteCorpuses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
     await this.httpClient.get(`http://localhost:8080/api/siteReportses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
     .then((response) => {
-        this.getRepValue = response;
-        
-      });
+        this.getRepValue = response;  
+      }).catch(
+        error => {
+          console.log('error message: ',error)
+          this.router.navigate(['/error']);
+        }
+      );
     
     return this.getRepValue;
   }
 
   new_rep : Report = new Report()
   updateReport(rep,site){
-
     
     console.log('in site service update report\n',rep,'\nnew site is\n ',site)
 
@@ -60,20 +69,24 @@ export class SiteService {
 
     console.log('updated report will be --------',this.new_rep)
     return this.httpClient.post('http://localhost:8080/updateReportSite',this.new_rep,
-    {responseType: 'text' as 'json'});  
+    {responseType: 'text' as 'json'})
   }
 
   count:any
   async getUndefinedSiteCount(){
-    // let urlUndef = 'http://localhost:8080/getUndefined'
-    // return this.httpClient.get(urlUndef, )  
+    
     await this.httpClient.get('http://localhost:8080/getUndefined').toPromise()
     .then((response) => {
         this.count = response;
         
-      });
+      }).catch(
+        error => {
+          console.log('error message: ',error)
+          this.router.navigate(['/error']);
+        }
+      );
     return this.count
-    // console.log(this.count)
+  
   }
 
 

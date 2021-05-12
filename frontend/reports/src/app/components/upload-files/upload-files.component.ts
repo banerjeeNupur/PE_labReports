@@ -56,7 +56,7 @@ export class UploadFilesComponent implements OnInit {
         } else if (event instanceof HttpResponse) {
           // this.fileInfos = this.uploadService.getFiles();
           // display the count of files that couldn't be parsed
-
+          console.log('in response section')
           
           this.siteService.getUndefinedSiteCount().then((response) => {
             this.undefinedSite_final = response;

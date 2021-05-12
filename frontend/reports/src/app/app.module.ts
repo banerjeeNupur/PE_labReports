@@ -29,6 +29,7 @@ import { ReportService } from './services/report.service';
 import { EditSiteComponent } from './components/edit-site/edit-site.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { UploadFilesService } from './services/upload-files.service';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { UploadFilesService } from './services/upload-files.service';
     HomeComponent,
     UploadComponent,
     EditSiteComponent,
-    UploadFilesComponent
+    UploadFilesComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,

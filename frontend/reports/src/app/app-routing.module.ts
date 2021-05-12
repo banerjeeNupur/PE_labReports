@@ -6,6 +6,7 @@ import { DetailsSiteComponent } from './components/details-site/details-site.com
 import { HomeComponent } from './components/home/home.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { EditSiteComponent } from './components/edit-site/edit-site.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 
 
@@ -45,6 +46,10 @@ const routes : Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: 'error',
+    component: ErrorPageComponent
   },
   {
     path: '**',

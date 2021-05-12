@@ -14,7 +14,8 @@ export class EditSiteComponent implements OnInit {
 
   constructor(
               private siteService : SiteService, 
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.new_report.report = this.siteService.report.report
@@ -36,8 +37,16 @@ export class EditSiteComponent implements OnInit {
     
       console.log('in annotate-report-----\n',this.new_report,'------\n',this.input_site)
       let resp = this.siteService.updateReport(this.new_report,this.input_site)
-      resp.subscribe((data)=>this.message=data)
-      console.log('edit message is: ', this.message)
+      resp.subscribe((data)=>{
+        this.message='site updated!'
+        document.getElementById("div_message").style.display = "block"
+        console.log(this.message)
+      },
+      (error) => {
+        console.log('error')
+        this.router.navigate(['/error']);
+      })
+     
   }
 
 }

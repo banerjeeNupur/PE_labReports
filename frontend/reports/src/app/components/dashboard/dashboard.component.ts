@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
     this.site = await response._embedded.siteCorpuses;
     console.log('site length is: ',this.site.length)
   }
-
+ 
   // filter based on user input
   search(){
     if(this.input_site==""){
@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
       });
     }
   } 
-  
+   
   // sort based on site 
   sort(){
     this.reverse = !this.reverse;
