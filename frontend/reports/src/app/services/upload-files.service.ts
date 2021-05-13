@@ -44,9 +44,4 @@ export class UploadFilesService {
   
   }
 
-
-  // getFiles(): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/files`);
-    
-  // }
 }

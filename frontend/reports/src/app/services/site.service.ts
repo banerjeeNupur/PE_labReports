@@ -43,7 +43,6 @@ export class SiteService {
 
   // redirect to report table
   async getRep() {
-    // await this.httpClient.get(`http://localhost:8080/api/siteCorpuses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
     await this.httpClient.get(`http://localhost:8080/api/siteReportses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
     .then((response) => {
         this.getRepValue = response;  
@@ -72,23 +71,7 @@ export class SiteService {
     {responseType: 'text' as 'json'})
   }
 
-  count:any
-  async getUndefinedSiteCount(){
-    
-    await this.httpClient.get('http://localhost:8080/getUndefined').toPromise()
-    .then((response) => {
-        this.count = response;
-        console.log('service: ',response)  
-      }).catch(
-        error => {
-          console.log('error message: ',error)
-          this.router.navigate(['/error']);
-        }
-      );
-
-    return this.count
   
-  }
 
 
   

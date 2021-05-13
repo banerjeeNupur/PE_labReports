@@ -25,22 +25,16 @@ export class UploadFilesComponent implements OnInit {
     console.log('inital : ',this.undefinedSite_inital)
     this.progressInfos = [];
     this.selectedFiles = event.target.files;
+    document.getElementById('div_upload_message').style.display = 'none'
   }
 
   uploadFiles() {
-    
-    this.siteService.getUndefinedSiteCount().then((response) => {
-      this.undefinedSite_inital = response;
-      console.log('inital is: ', this.undefinedSite_inital)
-    });
 
     console.log(this.selectedFiles)
     this.message = '';
       for (let i = 0; i < this.selectedFiles.length; i++) {
-          setTimeout(() => {
-            this.upload(i, this.selectedFiles[i]);
-            console.log('loop number: ',i)
-          },3000)
+        this.upload(i, this.selectedFiles[i]);
+        console.log('loop number: ',i)
       }
     this.message = ''
   }
@@ -51,18 +45,15 @@ export class UploadFilesComponent implements OnInit {
     this.uploadService.upload(file).subscribe(
       event => {
         if (event.type === HttpEventType.UploadProgress) {
+
           this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
           
         } else if (event instanceof HttpResponse) {
                  
-          setTimeout(() => { 
-            
-            this.siteService.getUndefinedSiteCount().then((response) => {
-            this.undefinedSite_final = response;            
-            console.log('final is: ', this.undefinedSite_final )
-            this.message = (this.undefinedSite_final - this.undefinedSite_inital).toString() + ' files didn\'t have site mentioned'
-            document.getElementById('div_upload').style.display = "block"
-          }); }, 1000);
+          setTimeout(() => {
+            document.getElementById('parse_button').style.visibility = 'visible'
+          },1500)
+        
         }
       },
       err => {
@@ -72,7 +63,21 @@ export class UploadFilesComponent implements OnInit {
   }
 
   parseFiles(){
-    this.uploadService.parseFiles()
+    this.uploadService.parseFiles().then(
+      (response) => {
+        console.log('in parse files : ',response)
+        if(response === 0){
+          this.message = 'site detected for all the files!'
+          console.log('site detected for all')
+          document.getElementById('div_upload_message').style.display = 'block'
+        } 
+        else {
+          this.message = 'could not detect site for ' + response + ' file(s)'
+          console.log('couldn\'t detect for ', response, ' file(s)')
+          document.getElementById('div_upload_message').style.display = 'block'
+        }
+      }
+    )
   }
   
   ngOnInit() {}
