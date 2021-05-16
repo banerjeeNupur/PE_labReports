@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SiteService } from './services/site.service';
 
 import { Routes, RouterModule, Router } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SiteDashboardComponent } from './components/site-dashboard/site-dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -36,7 +36,7 @@ import { DiagDashboardComponent } from './components/diag-dashboard/diag-dashboa
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
+    SiteDashboardComponent,
     DetailsSiteComponent,
     NavbarComponent,
     HomeComponent,

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SiteDashboardComponent } from './components/site-dashboard/site-dashboard.component';
 import { DetailsSiteComponent } from './components/details-site/details-site.component';
 import { HomeComponent } from './components/home/home.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { EditSiteComponent } from './components/edit-site/edit-site.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-
+import { DiagDashboardComponent } from './components/diag-dashboard/diag-dashboard.component';
 
 
 const routes : Routes = [
@@ -44,8 +44,12 @@ const routes : Routes = [
     component: HomeComponent
   }, 
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: 'app-site-dashboard',
+    component: SiteDashboardComponent,
+  },
+  {
+    path: 'app-diag-dashboard',
+    component: DiagDashboardComponent,
   },
   {
     path: 'error',

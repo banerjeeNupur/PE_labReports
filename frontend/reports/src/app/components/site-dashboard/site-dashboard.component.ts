@@ -7,11 +7,11 @@ import { NgbPaginationEllipsis } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-site-dashboard',
+  templateUrl: './site-dashboard.component.html',
+  styleUrls: ['./site-dashboard.component.css']
 })
-export class DashboardComponent implements OnInit { 
+export class SiteDashboardComponent implements OnInit { 
  
   constructor(private siteService : SiteService,private route: Router) { }
   site_input:any;
