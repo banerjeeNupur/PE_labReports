@@ -37,7 +37,7 @@ export class DetailsSiteComponent implements OnInit {
   async starter(){
     let response = await this.siteService.getRep();
     console.log(response._embedded,"data isnkasjdh");
-    this.site = response._embedded.siteReportses;
+    this.site = response._embedded.reportses;
     this.site_data = this.Middleware(this.site);  
   }
 
@@ -48,7 +48,7 @@ export class DetailsSiteComponent implements OnInit {
     data.forEach(element => {
       
       temp = element._links.self.href
-      temp = temp.split('http://localhost:8080/api/siteReportses/')[1]
+      temp = temp.split('http://localhost:8080/api/reportses/')[1]
       array.push([element.site,element.report,temp]);
       
     });

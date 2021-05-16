@@ -25,11 +25,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReportService } from './services/report.service';
-
+import { DiagnosisService } from './services/diagnosis.service';
 import { EditSiteComponent } from './components/edit-site/edit-site.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { UploadFilesService } from './services/upload-files.service';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { DiagDashboardComponent } from './components/diag-dashboard/diag-dashboard.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     UploadComponent,
     EditSiteComponent,
     UploadFilesComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    DiagDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     MatTableModule,
     MatFormFieldModule
   ],
-  providers: [SiteService,ReportService, UploadFilesService],
+  providers: [SiteService,ReportService, UploadFilesService,DiagnosisService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

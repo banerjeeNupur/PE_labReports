@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class SiteService {
-    
+export class DiagnosisService {
+
   // Variables
   getSiteData: any;
   getSiteListData:any;
@@ -24,7 +24,6 @@ export class SiteService {
 
   constructor(private httpClient : HttpClient,  private router: Router) { }
   private baseUrl = 'http://localhost:8080/api/siteCorpuses';
-
 
   // get list of all the sites
   async getSiteList(){
@@ -39,7 +38,6 @@ export class SiteService {
       )
     return this.getSiteListData;
   }
-
 
   // redirect to report table
   async getRep() {
@@ -71,11 +69,4 @@ export class SiteService {
     {responseType: 'text' as 'json'})
   }
 
-  
-
-
-  
 }
-
-
-
