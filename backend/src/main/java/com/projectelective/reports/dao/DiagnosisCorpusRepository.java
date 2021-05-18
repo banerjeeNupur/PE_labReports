@@ -12,4 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface DiagnosisCorpusRepository  extends JpaRepository<DiagnosisCorpus, Long> {
 
     Page<SiteCorpus> findAllByDiagnosisContaining(@RequestParam("diagnosis") String diagnosis, Pageable pageable );
+
+    boolean existsByDiagnosis(String diagnosis);
+
+    boolean existsByFinal_diagnosis(String diagnosis);
 }

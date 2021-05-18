@@ -3,6 +3,7 @@ package com.projectelective.reports.controller;
 
 import com.projectelective.reports.entity.Reports;
 import com.projectelective.reports.service.AnnotateService;
+import com.projectelective.reports.service.ReportService;
 import com.projectelective.reports.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ public class MainController {
 
     @Autowired
     private AnnotateService annotateService;
+
+    @Autowired
+    private ReportService reportService;
 
 
     // update corpus_site and repos
@@ -53,6 +57,14 @@ public class MainController {
         // save the new report
         //addReport(reports);
 
+        return reports;
+    }
+
+    @PostMapping("/updateReport")
+    public Reports updateReport(@RequestBody Reports reports){
+        System.out.println("controller: updating report");
+        reportService.deleteReport(reports.getId());
+        reportService.saveReport(reports);
         return reports;
     }
 

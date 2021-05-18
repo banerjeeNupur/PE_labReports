@@ -32,7 +32,7 @@ export class ReportService {
     else this.new_rep.final_diagnosis = diag
 
     console.log('updated report will be --------',this.new_rep)
-    return this.httpClient.post('http://localhost:8080/updateReportSite',this.new_rep,
+    return this.httpClient.post('http://localhost:8080/updateReport',this.new_rep,
     {responseType: 'text' as 'json'})
   }
 
