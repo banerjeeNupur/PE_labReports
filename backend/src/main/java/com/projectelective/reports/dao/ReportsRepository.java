@@ -18,4 +18,6 @@ public interface ReportsRepository extends JpaRepository<Reports, Long> {
     void deleteById(Long id);
 
     List<Reports> findAllBySiteEquals(String undefined);
+
+    List<Reports> findAllByDiagnosisEquals(String undefined);
 }

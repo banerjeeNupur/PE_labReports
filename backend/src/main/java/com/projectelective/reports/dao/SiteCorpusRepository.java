@@ -16,7 +16,6 @@ import java.util.*;
 @CrossOrigin("http://localhost:4200")
 public interface SiteCorpusRepository extends JpaRepository<SiteCorpus, Long> {
 
-
         Page<SiteCorpus> findAllBySiteContaining(@RequestParam("site") String site, Pageable pageable );
 
         SiteCorpus findBySite(SiteCorpus site);

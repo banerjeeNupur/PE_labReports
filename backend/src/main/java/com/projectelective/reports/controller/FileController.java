@@ -1,6 +1,5 @@
 package com.projectelective.reports.controller;
 
-import com.projectelective.reports.dao.ReportsRepository;
 import com.projectelective.reports.message.ResponseMessage;
 import com.projectelective.reports.service.FileStorageService;
 import com.projectelective.reports.service.SiteService;
@@ -22,8 +21,9 @@ public class FileController {
     @Autowired
     private SiteService siteService;
 
-    public void runPython(){
 
+
+    public void runPython(){
         System.out.println("running python");
         try{
             Runtime.getRuntime().exec("/usr/bin/python3"+" "+"/home/nupur/Desktop/PE/code/util/findsite.py").waitFor();
@@ -53,13 +53,17 @@ public class FileController {
     @GetMapping("/parse")
     public ResponseEntity<Integer> parseFiles(){
         Integer count_initial = siteService.getUndefinedSites();
-        System.out.println("initial count : "+count_initial);
+        Integer diag_initial = siteService.getUndefinedDiag();
+
+        System.out.println("site, diag initial --------- : "+count_initial+"=="+diag_initial);
         FileController obj = new FileController();
         System.out.println("before python call");
         obj.runPython();
         System.out.println("after python call");
         Integer count_final = siteService.getUndefinedSites();
-        System.out.println("count : "+count_final);
+        Integer diag_final = siteService.getUndefinedDiag();
+
+        System.out.println("site, diag final -------- : "+count_final+"=="+diag_final);
         Integer diff = count_final - count_initial;
         return new ResponseEntity<>(diff,HttpStatus.OK);
     }

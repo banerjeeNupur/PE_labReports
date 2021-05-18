@@ -5,7 +5,7 @@ import re
 
 # iterate over the database table and read data
 # files table will store the files that have been uploaded.  
-mydb = mysql.connector.connect( host="localhost",user="nupur",password="casper7197",database="reports",auth_plugin='mysql_native_password')
+mydb = mysql.connector.connect( host="localhost",user="nupur",password="casper7197",database="PE",auth_plugin='mysql_native_password')
 mycursor = mydb.cursor()
 mycursor.execute("SELECT * FROM files")
 reports_to_update = mycursor.fetchall()
@@ -18,8 +18,13 @@ corpus = mycursor.fetchall()
 print('length of corpus: ',len(corpus))
 
 # biopsy[] stores the site mentioned in biopsy
-mycursor.execute("SELECT * FROM biopsy")
+mycursor.execute("SELECT * FROM corpus_biopsy")
 biopsy = mycursor.fetchall()
+
+f = open("/home/nupur/Desktop/PE/code/res.txt", "w")
+f.write("Now the file has more content!")
+f.close()
+
 
 # diag[] stores the diagnosis from corpus_diagnosis
 mycursor.execute("SELECT * FROM corpus_diagnosis")
@@ -94,33 +99,32 @@ def get_loc(biopsy,corpus,final_data):
 # if locData == 0 : return (report,'undefined').
 
 def get_diag(diag,final_data):
-  diagData = []
+  diagData = [] 
+  s = re.split(', |_|-|!|\.|\. | ', final_data)
+  l = []
   flag = 0
-  for j in diag:
-    if j in final_data:
-      diagData.append(j)
+  for b in diag:
+#    print('diag is : ',b[1])
+    res = final_data.find(b[1])
+    if res != -1:
+      l.append(b[1])
       flag = 1
       break
-  if flag == 0: 
-    s = re.split(', |_|-|!|\.|\. | ', final_data)
-    l = []
+  if flag == 0:    
     for j in s:
       if j in diag:
         print('token in corpus: ',j)
         l.append(j)
-    t = listToString(l)
-    if t != '': 
-      print('t is :',t)
-      diagData.append(t)
+  t = listToString(l)
+  if t != '': 
+    print('t is :',t)
+    diagData.append(t)
+
+
   return diagData
 
 processed_corpus=[tup[1] for tup in corpus]
 processed_biopsy=[tup[1] for tup in biopsy]
-
-
-f = open("/home/nupur/Desktop/PE/code/res.txt", "w")
-f.write("Now the file has more content!")
-f.close()
 
 
 for tup in reports_to_update:	
@@ -129,9 +133,10 @@ for tup in reports_to_update:
   final_impression=final_impression_split(data)
 # couldn't be split.
   if final_impression=='':
-    sql = "INSERT INTO repos (report,site) VALUES (%s, %s)"
+    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
     site='undefined'
-    mycursor.execute(sql,(data,site))
+    d='undefined'
+    mycursor.execute(sql,(data,site,d))
     mydb.commit()
     continue
 
@@ -141,7 +146,7 @@ for tup in reports_to_update:
   location=get_loc(processed_biopsy,processed_corpus,final_impression)
   diagnosis=get_diag(diag,final_impression)
   
-  print('final impression: ',final_impression)
+  print('final impression: ',type(final_impression))
   print('length of diagnosis : ',len(diagnosis))
   print('diag is :',diagnosis)
   if len(location)>0 and len(diagnosis)>0:
@@ -159,7 +164,7 @@ for tup in reports_to_update:
     mydb.commit()
   elif len(diagnosis)>0:
     sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
-    site='undefined
+    site='undefined'
     d=diagnosis[0]
     mycursor.execute(sql,(data,site,d))
     mydb.commit()
@@ -170,6 +175,7 @@ for tup in reports_to_update:
     d='undefined'
     mycursor.execute(sql,(data,site,d))
     mydb.commit()
+  
     
 # remove all data from files. 
 # TRUNCATE TABLE yourTableName.

@@ -14,6 +14,4 @@ public interface DiagnosisCorpusRepository  extends JpaRepository<DiagnosisCorpu
     Page<DiagnosisCorpus> findAllByDiagnosisContaining(@RequestParam("Diagnosis") String diagnosis, Pageable pageable );
 
     boolean existsByDiagnosis(String diagnosis);
-
-//    boolean existsByFinal_diagnosis(String diagnosis);
 }

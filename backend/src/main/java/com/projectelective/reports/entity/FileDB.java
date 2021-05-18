@@ -9,20 +9,18 @@ import javax.persistence.*;
 public class FileDB {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private String id;
 
     private String name;
 
     private String type;
 
-//    @Lob
-//    private byte[] data;
     private String data;
 
-    public FileDB() {
-    }
+
+    public FileDB() {}
 
 
     public FileDB(String name, String type, String data) {

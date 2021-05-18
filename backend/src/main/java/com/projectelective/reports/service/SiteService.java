@@ -3,17 +3,12 @@ package com.projectelective.reports.service;
 import com.projectelective.reports.dao.DiagnosisCorpusRepository;
 import com.projectelective.reports.dao.ReportsRepository;
 import com.projectelective.reports.dao.SiteCorpusRepository;
-
 import com.projectelective.reports.entity.DiagnosisCorpus;
 import com.projectelective.reports.entity.Reports;
 import com.projectelective.reports.entity.SiteCorpus;
-
-import jdk.jshell.Diag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import java.util.*;
+
 @Service
 public class SiteService {
 
@@ -35,7 +30,6 @@ public class SiteService {
         SiteCorpus s = new SiteCorpus();
         s.setSite(site);
 
-        // !siteCorpusRepository.existsBySite(site.getSite())
         if(!siteCorpusRepository.existsBySite(site)){
             System.out.println("not found");
             return siteCorpusRepository.save(s);
@@ -47,7 +41,6 @@ public class SiteService {
 
     // save diagnosis to corpus_diag if it isn't already present
     public DiagnosisCorpus saveDiag(  String diagnosis){
-
         System.out.println("start service");
         DiagnosisCorpus d = new DiagnosisCorpus();
         d.setDiagnosis(diagnosis);
@@ -75,4 +68,10 @@ public class SiteService {
         Integer c =  reportsRepository.findAllBySiteEquals("undefined").size();
         return c;
     }
+    public Integer getUndefinedDiag(){
+        Integer c =  reportsRepository.findAllByDiagnosisEquals("undefined").size();
+        return c;
+    }
+
+
 }

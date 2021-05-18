@@ -72,27 +72,7 @@ export class SiteService {
     }
     
     return this.getRepValue;
-  } 
-
-  new_rep : Report = new Report()
-  updateReport(rep,site){
-    
-    console.log('in site service update report\n',rep,'\nnew site is\n ',site)
-
-    // updating the report as we'll be updating based on ID
-    this.new_rep.site = site
-    this.new_rep.id = rep.id
-    this.new_rep.report = rep.report
-
-    console.log('updated report will be --------',this.new_rep)
-    return this.httpClient.post('http://localhost:8080/updateReportSite',this.new_rep,
-    {responseType: 'text' as 'json'})
-  }
-
-  
-
-
-  
+  }   
 }
 
 

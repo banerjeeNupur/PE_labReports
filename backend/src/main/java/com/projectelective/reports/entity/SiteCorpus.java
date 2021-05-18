@@ -18,7 +18,7 @@ public class SiteCorpus {
     private String site;
 
 
-    public SiteCorpus() { }
+    public SiteCorpus() {}
 
     public SiteCorpus(Long id, String site) {
         this.id = id;
