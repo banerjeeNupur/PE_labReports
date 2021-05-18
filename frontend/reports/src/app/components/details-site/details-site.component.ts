@@ -53,7 +53,7 @@ export class DetailsSiteComponent implements OnInit {
       temp = element._links.self.href
       temp = temp.split('http://localhost:8080/api/reportses/')[1]
       //console.log('element is : ',element)
-      array.push([element.site,element.final_diagnosis,element.report,temp]);
+      array.push([element.site,element.diagnosis,element.report,temp]);
       
     });
     return array;
@@ -101,7 +101,7 @@ export class DetailsSiteComponent implements OnInit {
       this.siteService.report.site = r[0];
 
       this.reportService.report.site = r[0];
-      this.reportService.report.final_diagnosis = r[1];
+      this.reportService.report.diagnosis = r[1];
       this.reportService.report.report = r[2];
       this.reportService.report.id = r[3];
       

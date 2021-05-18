@@ -23,5 +23,4 @@ public interface SiteCorpusRepository extends JpaRepository<SiteCorpus, Long> {
 
         boolean existsBySite(String site);
 
-//        List<SiteCorpus> findAllBySiteContaining(String site);
 }

@@ -18,6 +18,7 @@ export class SiteService {
   getSiteListData:any;
   report_input:any;
   site_name:string;
+  diag_name:string;
   getRepValue:any;
   pageUrl:any;
   report:Report = new Report();
@@ -41,9 +42,23 @@ export class SiteService {
   }
 
 
+  temp : any
   // redirect to report table
   async getRep() {
-    await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
+    if(this.temp === 'site'){
+      await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
+      .then((response) => {
+        this.getRepValue = response;  
+        console.log('response object: ',response)
+      }).catch(
+        error => {
+          console.log('error message: ',error)
+          this.router.navigate(['/error']);
+        }
+      );
+    }
+    else if(this.temp === 'diag'){
+      await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllByDiagnosisContaining?diagnosis=${this.diag_name}`).toPromise()
     .then((response) => {
         this.getRepValue = response;  
         console.log('response object: ',response)
@@ -54,8 +69,10 @@ export class SiteService {
         }
       );
     
+    }
+    
     return this.getRepValue;
-  }
+  } 
 
   new_rep : Report = new Report()
   updateReport(rep,site){

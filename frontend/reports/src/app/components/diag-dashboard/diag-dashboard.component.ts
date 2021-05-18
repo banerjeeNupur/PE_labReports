@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 
 import { NgbPaginationEllipsis } from '@ng-bootstrap/ng-bootstrap';
 import { Diagnosis } from 'src/app/common/diagnosis';
+import { SiteService } from 'src/app/services/site.service';
 declare var $: any;
 
 @Component({
@@ -14,7 +15,8 @@ declare var $: any;
 })
 export class DiagDashboardComponent implements OnInit { 
  
-  constructor(private diagnosisService : DiagnosisService,private route: Router) { }
+  constructor(private diagnosisService : DiagnosisService,private route: Router,
+    private siteService : SiteService) { }
   diag_input:any;
   diagnosis:Diagnosis[];
   
@@ -53,10 +55,10 @@ export class DiagDashboardComponent implements OnInit {
   // entry point for site details
   
   searchRep(search_diag){
- 
-    this.diagnosisService.diag_name = search_diag;
+    this.siteService.diag_name = search_diag;
+    this.siteService.temp = 'diag'
     this.route.navigate(['/diag-details']);
-   
+    
    }
  
 }

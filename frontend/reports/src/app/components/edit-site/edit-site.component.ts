@@ -23,7 +23,7 @@ export class EditSiteComponent implements OnInit {
     this.new_report.report = this.reportService.report.report
     this.new_report.site = this.reportService.report.site
     this.new_report.id = this.reportService.report.id
-    this.new_report.final_diagnosis = this.reportService.report.final_diagnosis
+    this.new_report.diagnosis = this.reportService.report.diagnosis
 
     console.log('edit site init() ', this.new_report)
   }

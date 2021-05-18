@@ -28,8 +28,8 @@ export class ReportService {
     this.new_rep.site = site
     this.new_rep.id = rep.id
     this.new_rep.report = rep.report
-    if(diag === undefined) this.new_rep.final_diagnosis = rep.final_diagnosis 
-    else this.new_rep.final_diagnosis = diag
+    if(diag === undefined) this.new_rep.diagnosis = rep.diagnosis 
+    else this.new_rep.diagnosis = diag
 
     console.log('updated report will be --------',this.new_rep)
     return this.httpClient.post('http://localhost:8080/updateReport',this.new_rep,

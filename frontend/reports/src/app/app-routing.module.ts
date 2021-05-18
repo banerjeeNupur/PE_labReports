@@ -17,8 +17,8 @@ const routes : Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'reports/:keyword',
-    redirectTo: 'details',
+    path: 'site-reports/:keyword',
+    redirectTo: 'site-details',
     pathMatch: 'full'
   },
   {
@@ -41,7 +41,7 @@ const routes : Routes = [
     component: EditSiteComponent
   },
   {
-    path: 'details',
+    path: 'site-details',
     component: DetailsSiteComponent,
   },
   {

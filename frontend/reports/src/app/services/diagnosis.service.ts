@@ -40,20 +40,7 @@ export class DiagnosisService {
     return this.getDiagListData;
   }
 
-  // redirect to report table
-  async getRep() {
-    await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllByFinal_diagnosisContaining?diagnosis=${this.diag_name}`).toPromise()
-    .then((response) => {
-        this.getRepValue = response;  
-      }).catch(
-        error => {
-          console.log('error message: ',error)
-          this.router.navigate(['/error']);
-        }
-      );
-    
-    return this.getRepValue;
-  }
+  
 
   
 }

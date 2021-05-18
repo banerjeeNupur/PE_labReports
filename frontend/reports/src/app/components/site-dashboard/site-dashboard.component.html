@@ -10,7 +10,7 @@
     <table class="table table-bordered search_site">
         <tbody>
             <tr *ngFor="let s of site |  paginate: {itemsPerPage:10, currentPage:p};">
-                <td><a routerLink="/reports/{{ s.site }}" (click)="searchRep(s.site)">{{s.site || s.item.site}}</a></td>
+                <td><a routerLink="/site-reports/{{ s.site }}" (click)="searchRep(s.site)">{{s.site || s.item.site}}</a></td>
             </tr>
         </tbody>
         <pagination-controls (pageChange)="p = $event" ></pagination-controls>

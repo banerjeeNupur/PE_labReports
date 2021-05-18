@@ -24,7 +24,7 @@ public class ReportService {
     public Reports saveReport(Reports reports){
         System.out.println("start site report service");
         siteService.saveSite(reports.getSite());
-        siteService.saveDiag(reports.getFinal_diagnosis());
+        siteService.saveDiag(reports.getDiagnosis());
         System.out.println("save site and diag done");
         return reportsRepository.save(reports);
     }

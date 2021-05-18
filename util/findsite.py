@@ -21,6 +21,10 @@ print('length of corpus: ',len(corpus))
 mycursor.execute("SELECT * FROM biopsy")
 biopsy = mycursor.fetchall()
 
+# diag[] stores the diagnosis from corpus_diagnosis
+mycursor.execute("SELECT * FROM corpus_diagnosis")
+diag = mycursor.fetchall()
+
 
 # remove \n \t. (L) and (R) with left, right. converted to lowercase.
 def clean(i):
@@ -89,7 +93,26 @@ def get_loc(biopsy,corpus,final_data):
 # if locData length > 0 : report was successfully parsed, i.e, site found. return (report,site) to java.
 # if locData == 0 : return (report,'undefined').
 
-
+def get_diag(diag,final_data):
+  diagData = []
+  flag = 0
+  for j in diag:
+    if j in final_data:
+      diagData.append(j)
+      flag = 1
+      break
+  if flag == 0: 
+    s = re.split(', |_|-|!|\.|\. | ', final_data)
+    l = []
+    for j in s:
+      if j in diag:
+        print('token in corpus: ',j)
+        l.append(j)
+    t = listToString(l)
+    if t != '': 
+      print('t is :',t)
+      diagData.append(t)
+  return diagData
 
 processed_corpus=[tup[1] for tup in corpus]
 processed_biopsy=[tup[1] for tup in biopsy]
@@ -116,21 +139,36 @@ for tup in reports_to_update:
   final_impression=remove_note_comment(final_impression)
   final_impression=remove_special_symb(final_impression)
   location=get_loc(processed_biopsy,processed_corpus,final_impression)
+  diagnosis=get_diag(diag,final_impression)
   
   print('final impression: ',final_impression)
-  print('length of location : ',len(location))
-  print('location is :',location)
-  if len(location)>0:
+  print('length of diagnosis : ',len(diagnosis))
+  print('diag is :',diagnosis)
+  if len(location)>0 and len(diagnosis)>0:
     print("succ")
-    sql = "INSERT INTO repos (report,site) VALUES (%s, %s)"
+    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
     site=location[0]
-    mycursor.execute(sql,(data,site))
+    d=diagnosis[0]
+    mycursor.execute(sql,(data,site,d))
+    mydb.commit()
+  elif len(location)>0:
+    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
+    site=location[0]
+    d='undefined'
+    mycursor.execute(sql,(data,site,d))
+    mydb.commit()
+  elif len(diagnosis)>0:
+    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
+    site='undefined
+    d=diagnosis[0]
+    mycursor.execute(sql,(data,site,d))
     mydb.commit()
   else:
     print('Not parssed')
-    sql = "INSERT INTO repos (report,site) VALUES (%s, %s)"
+    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s,%s)"
     site='undefined'
-    mycursor.execute(sql,(data,site))
+    d='undefined'
+    mycursor.execute(sql,(data,site,d))
     mydb.commit()
     
 # remove all data from files. 

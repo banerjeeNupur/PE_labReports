@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin("http://localhost:4200")
 public interface DiagnosisCorpusRepository  extends JpaRepository<DiagnosisCorpus, Long> {
 
-    Page<SiteCorpus> findAllByDiagnosisContaining(@RequestParam("diagnosis") String diagnosis, Pageable pageable );
+    Page<DiagnosisCorpus> findAllByDiagnosisContaining(@RequestParam("Diagnosis") String diagnosis, Pageable pageable );
 
     boolean existsByDiagnosis(String diagnosis);
 
-    boolean existsByFinal_diagnosis(String diagnosis);
+//    boolean existsByFinal_diagnosis(String diagnosis);
 }

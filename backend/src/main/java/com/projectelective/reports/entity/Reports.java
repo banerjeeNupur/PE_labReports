@@ -20,34 +20,34 @@ public class Reports {
     @Column(name = "report")
     private String report;
 
-    @Column(name = "other_diagnosis")
-    private String other_diagnosis;
+    @Column(name = "otherDiagnosis")
+    private String otherDiagnosis;
 
-    @Column(name= "final_diagnosis")
-    private String final_diagnosis;
+    @Column(name= "diagnosis")
+    private String diagnosis;
 
-    public String getOther_diagnosis() {
-        return other_diagnosis;
+    public String getOtherDiagnosis() {
+        return otherDiagnosis;
     }
 
-    public void setOther_diagnosis(String other_diagnosis) {
-        this.other_diagnosis = other_diagnosis;
+    public void setOtherDiagnosis(String otherDiagnosis) {
+        this.otherDiagnosis = otherDiagnosis;
     }
 
-    public String getFinal_diagnosis() {
-        return final_diagnosis;
+    public String getDiagnosis() {
+        return diagnosis;
     }
 
-    public void setFinal_diagnosis(String final_diagnosis) {
-        this.final_diagnosis = final_diagnosis;
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
     }
 
-    public Reports(Long id, String site, String report, String other_diagnosis, String final_diagnosis) {
+    public Reports(Long id, String site, String report, String otherDiagnosis, String Diagnosis) {
         this.id = id;
         this.site = site;
         this.report = report;
-        this.other_diagnosis = other_diagnosis;
-        this.final_diagnosis = final_diagnosis;
+        this.otherDiagnosis = otherDiagnosis;
+        this.diagnosis = Diagnosis;
     }
 
     public Long getId() {
@@ -77,3 +77,4 @@ public class Reports {
     public Reports() { }
 
 }
+

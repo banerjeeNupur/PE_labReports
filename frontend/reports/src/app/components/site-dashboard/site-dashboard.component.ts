@@ -60,9 +60,9 @@ export class SiteDashboardComponent implements OnInit {
   // entry point for site details
   report_input:any;
   searchRep(search_site){
- 
     this.siteService.site_name = search_site;
-    this.route.navigate(['/details']);
+    this.siteService.temp = 'site'
+    this.route.navigate(['/site-details']);
    
    }
  

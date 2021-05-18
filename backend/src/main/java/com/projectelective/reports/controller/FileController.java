@@ -18,8 +18,7 @@ public class FileController {
 
     @Autowired
     private FileStorageService storageService;
-    @Autowired
-    private ReportsRepository reportsRepository;
+
     @Autowired
     private SiteService siteService;
 
