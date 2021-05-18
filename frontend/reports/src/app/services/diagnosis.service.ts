@@ -14,10 +14,10 @@ import { Router } from '@angular/router';
 export class DiagnosisService {
 
   // Variables
-  getSiteData: any;
-  getSiteListData:any;
-  report_input:any;
-  site_name:string;
+  
+  getDiagListData:any;
+  
+  diag_name:string;
   getRepValue:any;
   pageUrl:any;
   report:Report = new Report();
@@ -26,23 +26,23 @@ export class DiagnosisService {
   private baseUrl = 'http://localhost:8080/api/diagnosisCorpuses';
 
   // get list of all the sites
-  async getSiteList(){
+  async getDiagList(){
     await this.httpClient.get(this.baseUrl).toPromise()
       .then((response) => {
         // console.log('corpus list: ',response)
-        this.getSiteListData = response;
+        this.getDiagListData = response;
       }).catch(
         error => {
           console.log('error message: ',error)
           this.router.navigate(['/error']);
         }
       )
-    return this.getSiteListData;
+    return this.getDiagListData;
   }
 
   // redirect to report table
   async getRep() {
-    await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
+    await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllByFinal_diagnosisContaining?diagnosis=${this.diag_name}`).toPromise()
     .then((response) => {
         this.getRepValue = response;  
       }).catch(
@@ -56,12 +56,12 @@ export class DiagnosisService {
   }
 
   new_rep : Report = new Report()
-  updateReport(rep,site){
+  updateReport(rep,diag){
     
-    console.log('in site service update report\n',rep,'\nnew site is\n ',site)
+    console.log('in site service update report\n',rep,'\nnew diag is\n ',diag)
 
     // updating the report as we'll be updating based on ID
-    this.new_rep.site = site
+    this.new_rep.site = diag
     this.new_rep.id = rep.id
     this.new_rep.report = rep.report
 

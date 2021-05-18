@@ -38,6 +38,7 @@ export class DetailsSiteComponent implements OnInit {
     let response = await this.siteService.getRep();
     console.log(response._embedded,"data isnkasjdh");
     this.site = response._embedded.reportses;
+    console.log('check this: ',this.site)
     this.site_data = this.Middleware(this.site);  
   }
 
@@ -46,10 +47,11 @@ export class DetailsSiteComponent implements OnInit {
     let array =[]
     let temp:any;  
     data.forEach(element => {
-      
+      // temp stores the element id (primary key)
       temp = element._links.self.href
       temp = temp.split('http://localhost:8080/api/reportses/')[1]
-      array.push([element.site,element.report,temp]);
+      console.log('element is : ',element)
+      array.push([element.site,element.final_diagnosis,element.report,temp]);
       
     });
     return array;

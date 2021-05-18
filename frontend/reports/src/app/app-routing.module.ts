@@ -12,6 +12,11 @@ import { DiagDashboardComponent } from './components/diag-dashboard/diag-dashboa
 
 const routes : Routes = [
   {
+    path: 'diag-reports/:keyword',
+    redirectTo: 'diag-details',
+    pathMatch: 'full'
+  },
+  {
     path: 'reports/:keyword',
     redirectTo: 'details',
     pathMatch: 'full'
@@ -37,6 +42,10 @@ const routes : Routes = [
   },
   {
     path: 'details',
+    component: DetailsSiteComponent,
+  },
+  {
+    path: 'diag-details',
     component: DetailsSiteComponent,
   },
   {

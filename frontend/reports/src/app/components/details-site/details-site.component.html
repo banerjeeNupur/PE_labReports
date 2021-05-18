@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th>Site</th>
+                <th>Diagnosis</th>
                 <th>Report</th>
                 <th></th>
                 <th></th>
@@ -19,6 +20,7 @@
             <tr *ngFor="let s of site_data |  paginate: {itemsPerPage:5, currentPage:p};">
                 <td>{{ s[0] }}</td>
                 <td>{{ s[1] }}</td>
+                <td>{{ s[2] }}</td>
                 <td>
                     <button name="Download" (click)="download_report(s)" class="btn btn-info">Download</button>
                 </td>

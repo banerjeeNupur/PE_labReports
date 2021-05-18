@@ -15,18 +15,14 @@ declare var $: any;
 export class DiagDashboardComponent implements OnInit { 
  
   constructor(private diagnosisService : DiagnosisService,private route: Router) { }
-  site_input:any;
+  diag_input:any;
   diagnosis:Diagnosis[];
   
   // pagination - default page number
   p:number = 1;
 
   // used for filtering
-  input_site:any;
-
-  // used for sorting based on site
-  key = 'site'
-  reverse: boolean = false;
+  input_diag:any;
 
   ngOnInit(){
     this.listSites()
@@ -34,36 +30,32 @@ export class DiagDashboardComponent implements OnInit {
 
   // fetch all the sites
   async listSites(){
-    const response = await this.diagnosisService.getSiteList();
+    const response = await this.diagnosisService.getDiagList();
     this.diagnosis = await response._embedded.diagnosisCorpuses;
     console.log('site length is: ',this.diagnosis.length)
   }
  
   // filter based on user input
   search(){
-    if(this.input_site==""){
+    if(this.input_diag==""){
       this.ngOnInit();
     }
     else{
-      // this.site = this.site.filter(res => {
-       
-      //   this.p = 1;
-      //   return res.site.toLocaleLowerCase().match(this.input_site.toLocaleLowerCase());
-      // });
+      this.diagnosis = this.diagnosis.filter(res => { 
+        this.p = 1;
+        return res.diagnosis.toLocaleLowerCase().match(this.input_diag.toLocaleLowerCase());
+      });
     }
   } 
    
-  // sort based on site 
-  sort(){
-    this.reverse = !this.reverse;
-  }
+  
 
   // entry point for site details
-  report_input:any;
-  searchRep(search_site){
+  
+  searchRep(search_diag){
  
-    this.diagnosisService.site_name = search_site;
-    this.route.navigate(['/details']);
+    this.diagnosisService.diag_name = search_diag;
+    this.route.navigate(['/diag-details']);
    
    }
  

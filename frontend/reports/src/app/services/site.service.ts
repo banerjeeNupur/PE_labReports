@@ -46,6 +46,7 @@ export class SiteService {
     await this.httpClient.get(`http://localhost:8080/api/reportses/search/findAllBySiteContaining?site=${this.site_name}`).toPromise()
     .then((response) => {
         this.getRepValue = response;  
+        console.log('response object: ',response)
       }).catch(
         error => {
           console.log('error message: ',error)

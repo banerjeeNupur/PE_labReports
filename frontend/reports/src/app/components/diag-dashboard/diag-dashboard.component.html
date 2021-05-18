@@ -2,15 +2,15 @@
 
 <div class="container">
     <br><br>
-    <nav class="search_site">
-        <input type="text" class="form-control" name="input_site" [(ngModel)]="input_site" (ngModelChange)="search()"
-            placeholder="Enter site">
+    <nav class="search_diag">
+        <input type="text" class="form-control" name="input_diag" [(ngModel)]="input_diag" (ngModelChange)="search()"
+            placeholder="Enter diagnosis">
     </nav>
  
-    <table class="table table-bordered search_site">
+    <table class="table table-bordered search_diag">
         <tbody>
             <tr *ngFor="let s of diagnosis |  paginate: {itemsPerPage:10, currentPage:p};">
-                <td><a routerLink="/reports/{{ s.diagnosis }}" (click)="searchRep(s.diagnosis)">{{s.diagnosis || s.item.diagnosis}}</a></td>
+                <td><a routerLink="/diag-reports/{{ s.diagnosis }}" (click)="searchRep(s.diagnosis)">{{s.diagnosis || s.item.diagnosis}}</a></td>
             </tr>
         </tbody>
         <pagination-controls (pageChange)="p = $event" ></pagination-controls>
