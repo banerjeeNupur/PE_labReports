@@ -34,9 +34,30 @@
             </mat-card>
 
             <mat-card>
+                <mat-card-header>
+                    <mat-card-title>
+                        Diagnosis
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>
+                        {{new_report.final_diagnosis}}
+                    </p>
+                </mat-card-content>
+
+            </mat-card>
+
+            <hr/>
+            <mat-card>
                 <textarea class="form-control" name="input_site" [(ngModel)]="input_site"
                     placeholder="Enter new site"></textarea>
             </mat-card>
+
+            <mat-card>
+                <textarea class="form-control" name="input_diagnosis" [(ngModel)]="input_diagnosis"
+                    placeholder="Enter new diagnosis"></textarea>
+            </mat-card>
+
 
             <div class="row alert alert-success" role="alert" id="div_message" style="display: none;">
                 {{ message }}
@@ -47,7 +68,7 @@
             </div>
             <div class="row">
 
-                <button type="button" class="btn btn-info mt-3 float-right mr-2" routerLink="/dashboard">Back</button>
+                <button type="button" class="btn btn-info mt-3 float-right mr-2" routerLink="/app-site-dashboard">Back</button>
 
             </div>
 

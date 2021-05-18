@@ -13,6 +13,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { NgbPaginationEllipsis } from '@ng-bootstrap/ng-bootstrap';
 
 import { Report } from 'src/app/common/report';
+import { ReportService } from 'src/app/services/report.service';
 declare var $: any;
  
 @Component({
@@ -24,7 +25,8 @@ export class DetailsSiteComponent implements OnInit {
 
   constructor(private siteService : SiteService,
               private activatedRoute: ActivatedRoute,
-              private route: Router  ) {}
+              private route: Router,
+              private reportService : ReportService  ) {}
 
   site: Site[];
   site_data:any;
@@ -50,7 +52,7 @@ export class DetailsSiteComponent implements OnInit {
       // temp stores the element id (primary key)
       temp = element._links.self.href
       temp = temp.split('http://localhost:8080/api/reportses/')[1]
-      console.log('element is : ',element)
+      //console.log('element is : ',element)
       array.push([element.site,element.final_diagnosis,element.report,temp]);
       
     });
@@ -94,10 +96,15 @@ export class DetailsSiteComponent implements OnInit {
   p:number = 1;
   rep : Report = new Report()
   edit_report(r){
-
       this.siteService.report.id = r[2];
       this.siteService.report.report = r[1];
       this.siteService.report.site = r[0];
+
+      this.reportService.report.site = r[0];
+      this.reportService.report.final_diagnosis = r[1];
+      this.reportService.report.report = r[2];
+      this.reportService.report.id = r[3];
+      
       this.route.navigate(['/edit-site']);
       console.log('in details component : ',r[0],r[1],r[2])
     }

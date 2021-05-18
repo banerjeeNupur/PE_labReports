@@ -12,6 +12,7 @@ import java.util.*;
 public interface ReportsRepository extends JpaRepository<Reports, Long> {
 
     Page<Reports> findAllBySiteContaining(@RequestParam("site") String site, Pageable pageable );
+//    Page<Reports> findAllByFinal_diagnosisContaining(@RequestParam("diagnosis") String diagnosis, Pageable pageable );
 
     @Override
     void deleteById(Long id);

@@ -48,10 +48,10 @@ public class MainController {
         System.out.println("report received : "+reports);
 
         // delete the current report
-        siteService.deleteReport(reports.getId());
+        //siteService.deleteReport(reports.getId());
 
         // save the new report
-        addReport(reports);
+        //addReport(reports);
 
         return reports;
     }

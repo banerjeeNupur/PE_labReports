@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet, Router } from '@angular/router'; 
 import { SiteService } from 'src/app/services/site.service';
 import { Report } from 'src/app/common/report';
+import { ReportService } from 'src/app/services/report.service';
 
 
 @Component({
@@ -15,12 +16,16 @@ export class EditSiteComponent implements OnInit {
   constructor(
               private siteService : SiteService, 
               private activatedRoute: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private reportService: ReportService) { }
 
   ngOnInit(): void {
-    this.new_report.report = this.siteService.report.report
-    this.new_report.site = this.siteService.report.site
-    this.new_report.id = this.siteService.report.id
+    this.new_report.report = this.reportService.report.report
+    this.new_report.site = this.reportService.report.site
+    this.new_report.id = this.reportService.report.id
+    this.new_report.final_diagnosis = this.reportService.report.final_diagnosis
+
+    console.log('edit site init() ', this.new_report)
   }
 
   report:any;
@@ -30,15 +35,15 @@ export class EditSiteComponent implements OnInit {
   
 
   input_site:any;
-  
+  input_diagnosis:any;
 
   message:any;
   annotate(){
     
-      console.log('in annotate-report-----\n',this.new_report,'------\n',this.input_site)
-      let resp = this.siteService.updateReport(this.new_report,this.input_site)
+      console.log('in annotate-report-----\n',this.new_report,'------\n',this.input_site,'------\n',this.input_diagnosis)
+      let resp = this.reportService.updateReport(this.new_report,this.input_site,this.input_diagnosis)
       resp.subscribe((data)=>{
-        this.message='site updated!'
+        this.message='report updated!'
         document.getElementById("div_message").style.display = "block"
         console.log(this.message)
       },
