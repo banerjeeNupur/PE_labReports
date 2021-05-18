@@ -23,12 +23,13 @@ export class DiagnosisService {
   report:Report = new Report();
 
   constructor(private httpClient : HttpClient,  private router: Router) { }
-  private baseUrl = 'http://localhost:8080/api/siteCorpuses';
+  private baseUrl = 'http://localhost:8080/api/diagnosisCorpuses';
 
   // get list of all the sites
   async getSiteList(){
     await this.httpClient.get(this.baseUrl).toPromise()
       .then((response) => {
+        // console.log('corpus list: ',response)
         this.getSiteListData = response;
       }).catch(
         error => {

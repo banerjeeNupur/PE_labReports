@@ -4,6 +4,7 @@ import { Site } from '../../common/site';
 import {Router} from '@angular/router';
 
 import { NgbPaginationEllipsis } from '@ng-bootstrap/ng-bootstrap';
+import { Diagnosis } from 'src/app/common/diagnosis';
 declare var $: any;
 
 @Component({
@@ -15,7 +16,7 @@ export class DiagDashboardComponent implements OnInit {
  
   constructor(private diagnosisService : DiagnosisService,private route: Router) { }
   site_input:any;
-  site:Site[];
+  diagnosis:Diagnosis[];
   
   // pagination - default page number
   p:number = 1;
@@ -34,8 +35,8 @@ export class DiagDashboardComponent implements OnInit {
   // fetch all the sites
   async listSites(){
     const response = await this.diagnosisService.getSiteList();
-    this.site = await response._embedded.siteCorpuses;
-    console.log('site length is: ',this.site.length)
+    this.diagnosis = await response._embedded.diagnosisCorpuses;
+    console.log('site length is: ',this.diagnosis.length)
   }
  
   // filter based on user input
@@ -44,11 +45,11 @@ export class DiagDashboardComponent implements OnInit {
       this.ngOnInit();
     }
     else{
-      this.site = this.site.filter(res => {
+      // this.site = this.site.filter(res => {
        
-        this.p = 1;
-        return res.site.toLocaleLowerCase().match(this.input_site.toLocaleLowerCase());
-      });
+      //   this.p = 1;
+      //   return res.site.toLocaleLowerCase().match(this.input_site.toLocaleLowerCase());
+      // });
     }
   } 
    
