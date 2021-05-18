@@ -45,7 +45,7 @@ master['final_diags']=final_diags
 # print(report.index('nan'))
 # print(len(report),len(location))
 # query="""Insert into reports (report,site) values({count},{rep},{loc})"""
-sql = "INSERT INTO repos (report,site,other_diagnosis,final_diagnosis) VALUES (%s,%s,%s,%s)"
+sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s,%s,%s,%s)"
 count=0
 for i in tqdm(range(len(report))):
 	# print(other_diags[i],final_diags[i])

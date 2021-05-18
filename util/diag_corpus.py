@@ -9,8 +9,17 @@ data_28000=pickle.load(open("(22001-28000)data.pickle","rb"))
 
 final=data_8400+data_15000+data_22000+data_28000
 
+print('initial length of final: ',len(final))
 
-print('inserting into database ', count)
+final_data = []
+for i in tqdm(range(len(final))):
+  if final[i] in final_data:
+    continue
+  final_data.append(final[i])
+
+print('exit length : ',len(final_data))
+
+print('inserting into database ')
 
 import mysql.connector
 
@@ -20,24 +29,23 @@ mydb = mysql.connector.connect(
   password="casper7197",
   database="PE",
   auth_plugin='mysql_native_password'
-)
+  )
 
 mycursor = mydb.cursor()
 
 one = 0
 more = 0
-for i in tqdm(range(len(final))):
-    if(len(final[i]) == 0): 
-      one = one + 1
-      # 386
-    else:
-      more = more + 1
-      sql = "INSERT INTO corpus_diagnosis (diagnosis) VALUES (%s)"
-      val = (final[i][1],)
-      mycursor.execute(sql, val)
-      mydb.commit()
-         
+for i in tqdm(range(len(final_data))):
+  if(len(final_data[i]) == 0):
+    one = one + 1
+    # 386
+  else:
+    more = more + 1
+    sql = "INSERT INTO corpus_diagnosis (diagnosis) VALUES (%s)"
+    val = (final_data[i][1],)
+    mycursor.execute(sql, val)
+    mydb.commit()
+
 print('last insert id', mycursor.lastrowid)
 
 print('records inserted')
-
