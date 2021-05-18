@@ -1,9 +1,11 @@
 package com.projectelective.reports.service;
 
+import com.projectelective.reports.dao.ReportsRepository;
 import com.projectelective.reports.dao.SiteCorpusRepository;
-import com.projectelective.reports.dao.SiteReportsRepository;
+
+import com.projectelective.reports.entity.Reports;
 import com.projectelective.reports.entity.SiteCorpus;
-import com.projectelective.reports.entity.SiteReports;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class SiteService {
     private  SiteCorpusRepository siteCorpusRepository;
 
     @Autowired
-    private SiteReportsRepository siteReportsRepository;
+    private ReportsRepository reportsRepository;
 
     // SiteCorpus site : edit to the function parameter
 
@@ -36,18 +38,18 @@ public class SiteService {
     }
 
     // save report to repos
-    public SiteReports saveReport(SiteReports reports){
+    public Reports saveReport(Reports reports){
         System.out.println("start site report service");
-        return siteReportsRepository.save(reports);
+        return reportsRepository.save(reports);
     }
 
     // delete report
     public void deleteReport(Long id){
-        siteReportsRepository.deleteById(id);
+        reportsRepository.deleteById(id);
     }
 
     public Integer getUndefinedSites(){
-        Integer c =  siteReportsRepository.findAllBySiteEquals("undefined").size();
+        Integer c =  reportsRepository.findAllBySiteEquals("undefined").size();
         return c;
     }
 }

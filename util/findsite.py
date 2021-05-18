@@ -2,31 +2,35 @@
 
 import mysql.connector
 import re
+
 # iterate over the database table and read data
-#change this 
+# files table will store the files that have been uploaded.  
 mydb = mysql.connector.connect( host="localhost",user="nupur",password="casper7197",database="reports",auth_plugin='mysql_native_password')
 mycursor = mydb.cursor()
 mycursor.execute("SELECT * FROM files")
 reports_to_update = mycursor.fetchall()
 
-# ---------------------------
+# the input report will be parsed against these arrays. We'll try to find the site based upon this corpus.
+
+# corpus[] stores the site mentioned in corpus_site
 mycursor.execute("SELECT * FROM corpus_site")
 corpus = mycursor.fetchall()
 print('length of corpus: ',len(corpus))
+
+# biopsy[] stores the site mentioned in biopsy
 mycursor.execute("SELECT * FROM biopsy")
 biopsy = mycursor.fetchall()
-# print(corpus[0][0])
-# remove \n \t. (L) and (R) with left, right. converted to lowercase. 
 
 
-# ----------------------------
+# remove \n \t. (L) and (R) with left, right. converted to lowercase.
 def clean(i):
   data = i.replace("\n"," ").replace("\t"," ").replace('(L)','left').replace('(R)','right').replace('(',' ').replace(')',' ').replace(',',' ')
   data = data.lower()
   return data
-# splitting the data based on final impression or impression.
-# if the report cannot be split, it cannot be processed.
 
+
+# splitting the data based on final impression or impression.
+# if the report cannot be split, it cannot be processed. We'll be storing them with site - unspecified.
 def final_impression_split(data):
   final_impression = ''
   if "final impression" in data:
@@ -39,7 +43,7 @@ def final_impression_split(data):
     final_impression = data.split('Final Impression',1)[1]
   return final_impression
 
-# # remove note, comment section.
+# remove note, comment section.
 def remove_note_comment(final_impression):
   if 'note' in final_impression:
     final_impression = final_impression.split('note',1)[0]
@@ -47,15 +51,18 @@ def remove_note_comment(final_impression):
     final_impression = final_impression.split('comment',1)[0]
   return final_impression
 
-# # remove special symbols
+# remove special symbols
 def remove_special_symb(final_impression):
   final_data=final_impression.replace('–',' ').replace('.',' ').replace(';',' ').replace(':',' ').replace('/',' ')
   # print(final_data)
   return final_data
+  
+# convert the list of tokens to string
 def listToString(s):   
   str1 = " " 
   return (str1.join(s))
   
+# match against biopsy. If not found, check tokens in corpus[]
 def get_loc(biopsy,corpus,final_data):
   locData = []
   flag = 0
@@ -83,18 +90,10 @@ def get_loc(biopsy,corpus,final_data):
 # if locData == 0 : return (report,'undefined').
 
 
-# ----------------------------------------
 
 processed_corpus=[tup[1] for tup in corpus]
 processed_biopsy=[tup[1] for tup in biopsy]
 
-# ----------------------------------------
-
-#print('processed corpus:')
-#print(processed_corpus)
-
-
-# -------------- nope
 
 f = open("/home/nupur/Desktop/PE/code/res.txt", "w")
 f.write("Now the file has more content!")
@@ -105,8 +104,12 @@ for tup in reports_to_update:
   data=tup[1]
   data=clean(data)
   final_impression=final_impression_split(data)
+# couldn't be split.
   if final_impression=='':
-    #insert report,NULL
+    sql = "INSERT INTO repos (report,site) VALUES (%s, %s)"
+    site='undefined'
+    mycursor.execute(sql,(data,site))
+    mydb.commit()
     continue
 
   print('report: ',tup[1])

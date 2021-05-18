@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
-public class SiteCorpusController {
+public class MainController {
 
     @Autowired
     private SiteService siteService;
