@@ -2,7 +2,7 @@ package com.projectelective.reports.controller;
 
 import com.projectelective.reports.message.ResponseMessage;
 import com.projectelective.reports.service.FileStorageService;
-import com.projectelective.reports.service.SiteService;
+import com.projectelective.reports.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,7 @@ public class FileController {
     private FileStorageService storageService;
 
     @Autowired
-    private SiteService siteService;
-
+    private MainService mainService;
 
 
     public void runPython(){
@@ -52,16 +51,16 @@ public class FileController {
 
     @GetMapping("/parse")
     public ResponseEntity<Integer[]> parseFiles(){
-        Integer count_initial = siteService.getUndefinedSites();
-        Integer diag_initial = siteService.getUndefinedDiag();
+        Integer count_initial = mainService.getUndefinedSites();
+        Integer diag_initial = mainService.getUndefinedDiag();
 
         System.out.println("site, diag initial --------- : "+count_initial+"=="+diag_initial);
         FileController obj = new FileController();
         System.out.println("before python call");
         obj.runPython();
         System.out.println("after python call");
-        Integer count_final = siteService.getUndefinedSites();
-        Integer diag_final = siteService.getUndefinedDiag();
+        Integer count_final = mainService.getUndefinedSites();
+        Integer diag_final = mainService.getUndefinedDiag();
 
         System.out.println("site, diag final -------- : "+count_final+"=="+diag_final);
         Integer diff_site = count_final - count_initial;

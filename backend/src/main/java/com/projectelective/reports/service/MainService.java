@@ -1,42 +1,48 @@
 package com.projectelective.reports.service;
 
+import com.projectelective.reports.dao.BiopsyCorpusRepository;
 import com.projectelective.reports.dao.DiagnosisCorpusRepository;
 import com.projectelective.reports.dao.ReportsRepository;
 import com.projectelective.reports.dao.SiteCorpusRepository;
+import com.projectelective.reports.entity.BiopsyCorpus;
 import com.projectelective.reports.entity.DiagnosisCorpus;
-import com.projectelective.reports.entity.Reports;
 import com.projectelective.reports.entity.SiteCorpus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SiteService {
+public class MainService {
 
     @Autowired
     private  SiteCorpusRepository siteCorpusRepository;
-
     @Autowired
     private ReportsRepository reportsRepository;
-
+    @Autowired
+    private BiopsyCorpusRepository biopsyCorpusRepository;
     @Autowired
     private DiagnosisCorpusRepository diagnosisCorpusRepository;
 
-    // SiteCorpus site : edit to the function parameter
 
     // save site to corpus_site if it isn't already present
     public SiteCorpus saveSite(  String site){
-
         System.out.println("start service");
         SiteCorpus s = new SiteCorpus();
         s.setSite(site);
-
         if(!siteCorpusRepository.existsBySite(site)){
-            System.out.println("not found");
+            System.out.println("site not found. added: "+s);
             return siteCorpusRepository.save(s);
         }
-
-
         else return s;
+    }
+
+    // save site to corpus_site if it isn't already present
+    public BiopsyCorpus saveBiopsy(String biopsy){
+        if(biopsyCorpusRepository.existsByBiopsy(biopsy)) return null;
+        BiopsyCorpus b = new BiopsyCorpus();
+        b.setBiopsy(biopsy);
+        biopsyCorpusRepository.save(b);
+        System.out.println("biopsy not found: added "+b);
+        return b;
     }
 
     // save diagnosis to corpus_diag if it isn't already present
@@ -45,23 +51,10 @@ public class SiteService {
         DiagnosisCorpus d = new DiagnosisCorpus();
         d.setDiagnosis(diagnosis);
         if(!diagnosisCorpusRepository.existsByDiagnosis(diagnosis)){
-            System.out.println("not found");
+            System.out.println("diag not found. added: "+d);
             return diagnosisCorpusRepository.save(d);
         }
         else return d;
-    }
-
-
-
-    // save report to repos
-    public Reports saveReport(Reports reports){
-        System.out.println("start site report service");
-        return reportsRepository.save(reports);
-    }
-
-    // delete report
-    public void deleteReport(Long id){
-        reportsRepository.deleteById(id);
     }
 
     public Integer getUndefinedSites(){

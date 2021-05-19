@@ -38,7 +38,7 @@ export class EditSiteComponent implements OnInit {
   input_diagnosis:any;
 
   message:any;
-  annotate(){
+  edit(){
     
       console.log('in annotate-report-----\n',this.new_report,'------\n',this.input_site,'------\n',this.input_diagnosis)
       let resp = this.reportService.updateReport(this.new_report,this.input_site,this.input_diagnosis)

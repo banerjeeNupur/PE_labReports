@@ -18,10 +18,13 @@ export class ReportService {
 
     // updating the report as we'll be updating based on ID
     this.new_rep.site = site
+    this.new_rep.diagnosis = diag
     this.new_rep.id = rep.id
     this.new_rep.report = rep.report
-    if(diag === undefined) this.new_rep.diagnosis = rep.diagnosis 
-    else this.new_rep.diagnosis = diag
+    
+    if(diag === undefined) this.new_rep.diagnosis = rep.diagnosis
+    if (site === undefined ) this.new_rep.site = rep.site 
+    
 
     console.log('updated report will be --------',this.new_rep)
     

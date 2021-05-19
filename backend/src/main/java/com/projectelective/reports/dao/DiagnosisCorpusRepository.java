@@ -1,7 +1,6 @@
 package com.projectelective.reports.dao;
 
 import com.projectelective.reports.entity.DiagnosisCorpus;
-import com.projectelective.reports.entity.SiteCorpus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
