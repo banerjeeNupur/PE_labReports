@@ -62,6 +62,7 @@ export class SiteService {
     .then((response) => {
         this.getRepValue = response;  
         console.log('response object: ',response)
+        
       }).catch(
         error => {
           console.log('error message: ',error)

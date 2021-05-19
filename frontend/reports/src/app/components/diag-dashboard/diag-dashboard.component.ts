@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DiagnosisService } from 'src/app/services/diagnosis.service';
-import { Site } from '../../common/site';
 import {Router} from '@angular/router';
-
-import { NgbPaginationEllipsis } from '@ng-bootstrap/ng-bootstrap';
 import { Diagnosis } from 'src/app/common/diagnosis';
 import { SiteService } from 'src/app/services/site.service';
 declare var $: any;
@@ -15,9 +12,10 @@ declare var $: any;
 })
 export class DiagDashboardComponent implements OnInit { 
  
-  constructor(private diagnosisService : DiagnosisService,private route: Router,
-    private siteService : SiteService) { }
-  diag_input:any;
+  constructor(private diagnosisService : DiagnosisService,
+              private route: Router,
+              private siteService : SiteService) { }
+  
   diagnosis:Diagnosis[];
   
   // pagination - default page number
@@ -56,8 +54,7 @@ export class DiagDashboardComponent implements OnInit {
    
   
 
-  // entry point for site details
-  
+  // entry point for details 
   searchRep(search_diag){
     this.siteService.diag_name = search_diag;
     this.siteService.temp = 'diag'

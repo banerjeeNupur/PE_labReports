@@ -13,39 +13,40 @@ print('initial length of final: ',len(final))
 
 final_data = []
 for i in tqdm(range(len(final))):
+  print(final[i],'==')
   if final[i] in final_data:
     continue
   final_data.append(final[i])
 
 print('exit length : ',len(final_data))
 
-print('inserting into database ')
+#print('inserting into database ')
 
-import mysql.connector
+#import mysql.connector
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="nupur",
-  password="casper7197",
-  database="PE",
-  auth_plugin='mysql_native_password'
-  )
+#mydb = mysql.connector.connect(
+#  host="localhost",
+#  user="nupur",
+#  password="casper7197",
+#  database="PE",
+#  auth_plugin='mysql_native_password'
+#  )
 
-mycursor = mydb.cursor()
+#mycursor = mydb.cursor()
 
-one = 0
-more = 0
-for i in tqdm(range(len(final_data))):
-  if(len(final_data[i]) == 0):
-    one = one + 1
-    # 386
-  else:
-    more = more + 1
-    sql = "INSERT INTO corpus_diagnosis (diagnosis) VALUES (%s)"
-    val = (final_data[i][1],)
-    mycursor.execute(sql, val)
-    mydb.commit()
+#one = 0
+#more = 0
+#for i in tqdm(range(len(final_data))):
+#  if(len(final_data[i]) == 0):
+#    one = one + 1
+#    # 386
+#  else:
+#    more = more + 1
+#    sql = "INSERT INTO corpus_diagnosis (diagnosis) VALUES (%s)"
+#    val = (final_data[i][1],)
+#    mycursor.execute(sql, val)
+#    mydb.commit()
 
-print('last insert id', mycursor.lastrowid)
+#print('last insert id', mycursor.lastrowid)
 
 print('records inserted')

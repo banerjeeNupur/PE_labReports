@@ -16,7 +16,6 @@ export class DiagnosisService {
   // Variables
   
   getDiagListData:any;
-  
   diag_name:string;
   getRepValue:any;
   pageUrl:any;
@@ -25,7 +24,7 @@ export class DiagnosisService {
   constructor(private httpClient : HttpClient,  private router: Router) { }
   private baseUrl = 'http://localhost:8080/api/diagnosisCorpuses';
 
-  // get list of all the sites
+  // get list of all the diagnosis
   async getDiagList(){
     await this.httpClient.get(this.baseUrl).toPromise()
       .then((response) => {

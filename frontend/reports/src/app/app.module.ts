@@ -11,10 +11,10 @@ import { SiteDashboardComponent } from './components/site-dashboard/site-dashboa
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DetailsSiteComponent } from './components/details-site/details-site.component';
+import { DetailsComponent } from './components/details/details.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-import { UploadComponent } from './components/upload/upload.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { OrderModule } from 'ngx-order-pipe';
@@ -33,14 +33,14 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { DiagDashboardComponent } from './components/diag-dashboard/diag-dashboard.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     SiteDashboardComponent,
-    DetailsSiteComponent,
+    DetailsComponent,
     NavbarComponent,
     HomeComponent,
-    UploadComponent,
     EditSiteComponent,
     UploadFilesComponent,
     ErrorPageComponent,

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { SiteDashboardComponent } from './components/site-dashboard/site-dashboard.component';
-import { DetailsSiteComponent } from './components/details-site/details-site.component';
+import { DetailsComponent } from './components/details/details.component';
 import { HomeComponent } from './components/home/home.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { EditSiteComponent } from './components/edit-site/edit-site.component';
@@ -42,11 +41,11 @@ const routes : Routes = [
   },
   {
     path: 'site-details',
-    component: DetailsSiteComponent,
+    component: DetailsComponent,
   },
   {
     path: 'diag-details',
-    component: DetailsSiteComponent,
+    component: DetailsComponent,
   },
   {
     path: 'home',

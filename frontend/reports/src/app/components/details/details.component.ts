@@ -10,18 +10,16 @@ import * as XLSX from 'xlsx';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
-import { NgbPaginationEllipsis } from '@ng-bootstrap/ng-bootstrap';
-
 import { Report } from 'src/app/common/report';
 import { ReportService } from 'src/app/services/report.service';
 declare var $: any;
  
 @Component({
-  selector: 'app-details-site',
-  templateUrl: './details-site.component.html',
-  styleUrls: ['./details-site.component.css']
+  selector: 'app-details',
+  templateUrl: './details.component.html',
+  styleUrls: ['./details.component.css']
 })
-export class DetailsSiteComponent implements OnInit {
+export class DetailsComponent implements OnInit {
 
   constructor(private siteService : SiteService,
               private activatedRoute: ActivatedRoute,
@@ -62,14 +60,12 @@ export class DetailsSiteComponent implements OnInit {
   download_report(s){
 
     // 'NAME:\nCharlie Brown' + 'PATIENT ID:\n1234' + 'GENDER:\nMale' + 'AGE:\n20'
-    const reportDef = { content: 'NAME:\nCharlie Brown\n\n' + 'PATIENT ID:\n1234\n\n' + 'GENDER:\nMale\n\n' + 'AGE:\n20\n\n' 
-                                  + 'SITE:\n'+s[0] + '\n\n' + 'REPORT:\n'+ s[1]};
+    const reportDef = { content: 'SITE:\n'+s[0] + '\n\n' + 'DIAGNOSIS:\n'+s[1] + '\n\n' +'REPORT:\n'+ s[2]};
     pdfMake.createPdf(reportDef).download();
   }
 
   view_report(s){
-    const reportDef = { content: 'NAME:\nCharlie Brown\n\n' + 'PATIENT ID:\n1234\n\n' + 'GENDER:\nMale\n\n' + 'AGE:\n20\n\n' 
-                                 + 'SITE:\n'+s[0] + '\n\n' + 'REPORT:\n'+ s[1]};
+    const reportDef = { content: 'SITE:\n'+s[0] + '\n\n' + 'DIAGNOSIS:\n'+s[1] + '\n\n' +'REPORT:\n'+ s[2]};
     pdfMake.createPdf(reportDef).open();
   }
 
@@ -77,12 +73,11 @@ export class DetailsSiteComponent implements OnInit {
   
   download_all(rep){
     rep.forEach(element => {
-   
       // this.download_report(element);
       let temp = element.splice(-1,1)
     });
 
-     
+
     console.log('download all: ',rep)
     let fileName= 'ExcelSheet.xlsx';
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(rep);
@@ -96,10 +91,7 @@ export class DetailsSiteComponent implements OnInit {
   p:number = 1;
   rep : Report = new Report()
   edit_report(r){
-      this.siteService.report.id = r[2];
-      this.siteService.report.report = r[1];
-      this.siteService.report.site = r[0];
-
+      
       this.reportService.report.site = r[0];
       this.reportService.report.diagnosis = r[1];
       this.reportService.report.report = r[2];

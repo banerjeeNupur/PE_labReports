@@ -2,7 +2,7 @@
 
 import mysql.connector
 import re
-
+from tqdm import tqdm
 # iterate over the database table and read data
 # files table will store the files that have been uploaded.  
 mydb = mysql.connector.connect( host="localhost",user="nupur",password="casper7197",database="PE",auth_plugin='mysql_native_password')
@@ -25,11 +25,19 @@ f = open("/home/nupur/Desktop/PE/code/res.txt", "w")
 f.write("Now the file has more content!")
 f.close()
 
-
+# # ============================================================ the corpus has duplicates. corpus length = 22968. diag_list = 4464.
 # diag[] stores the diagnosis from corpus_diagnosis
 mycursor.execute("SELECT * FROM corpus_diagnosis")
 diag = mycursor.fetchall()
+diag_list = []
 
+for i in tqdm(range(len(diag))):
+  if diag[i][1] not in diag_list:
+    diag_list.append(diag[i][1])
+    
+print('length of diag is : ',len(diag_list))    
+
+# # =============================================================
 print('arrays ready')
 # remove \n \t. (L) and (R) with left, right. converted to lowercase.
 def clean(i):
@@ -96,36 +104,6 @@ def get_loc(biopsy,corpus,final_data):
       locData.append(t)
   return locData
   
-# # add the biopsy list to database, table : biopsy
-# # check if any of the biopsies are present in the report.
-# # corpus list : load value from site_corpus.
-# if locData length > 0 : report was successfully parsed, i.e, site found. return (report,site) to java.
-# if locData == 0 : return (report,'undefined').
-
-# def get_diag(diag,final_data):
-#   diagData = [] 
-#   s = re.split(', |_|-|!|\.|\. | ', final_data)
-#   l = []
-#   flag = 0
-#   for b in diag:
-# #    print('diag is : ',b[1])
-#     res = final_data.find(b[1])
-#     if res != -1:
-#       l.append(b[1])
-#       flag = 1
-#       break
-#   if flag == 0:    
-#     for j in s:
-#       if j in diag:
-#         print('token in corpus: ',j)
-#         l.append(j)
-#   t = listToString(l)
-#   if t != '': 
-#     print('t is :',t)
-#     diagData.append(t)
-
-
-#   return diagData
 
 #################Diagnosis Part##########
 import requests
@@ -144,6 +122,8 @@ def get_diag_helper(text,query):
     except:
         return []
     return final
+    
+# ============================================================================ if diag not present in the corpus, insert it
 def get_diag(x):
   temp=get_diag_helper(x,query_raw(x))
   diagnosis=[]
@@ -151,9 +131,16 @@ def get_diag(x):
       diagnosis.append((temp[:-1],temp[-1]))
   except:
       pass
+  if(len(diagnosis) > 0 and diagnosis[0][1] in diag_list ):
+    print('diag in corpus: ',diagnosis[0][1])
+  else:
+    sql = "INSERT INTO files (diagnosis) VALUES (%s)"
+    d = diagnosis[0][1]
+    mycursor.execute(sql,(d))
+    mydb.commit()
   return diagnosis
-  
 
+# =============================================================================
 
 processed_corpus=[tup[1] for tup in corpus]
 processed_biopsy=[tup[1] for tup in biopsy]
@@ -232,9 +219,9 @@ for tup in reports_to_update:
     
 # remove all data from files. 
 # TRUNCATE TABLE yourTableName.
-sql = "TRUNCATE TABLE files;"
-mycursor.execute(sql)
-mydb.commit()
+#sql = "TRUNCATE TABLE files;"
+#mycursor.execute(sql)
+#mydb.commit()
 
 
 print('deleted data from files.')

@@ -9,17 +9,9 @@ export class ReportService {
 
   constructor(private httpClient:HttpClient) { }
 
-  public uploadReport(report){
-    return this.httpClient.post('http://localhost:8080/addReport',report,
-    {responseType: 'text' as 'json'});
-  }
-
   report:Report = new Report();
-  update_report(){
-    console.log('updating report!')
-  }
-
   new_rep : Report = new Report()
+  
   updateReport(rep,site, diag){
     
     console.log('in report service update report\n',rep,'\nnew site is\n ',site,'\nnew diagnosis is\n ',diag)

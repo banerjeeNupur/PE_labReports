@@ -25,6 +25,7 @@ export class UploadFilesService {
     return this.http.request(req);
   }
 
+  
   // run the python script
   count:any
   async parseFiles(){
