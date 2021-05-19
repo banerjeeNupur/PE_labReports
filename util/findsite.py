@@ -119,7 +119,25 @@ def get_diag_helper(text,query):
     return final
     
 # ============================================================================ if diag not present in the corpus, insert it
-def get_diag(x):  
+def get_diag(x):
+  data = re.split(', |_|-|!|\.|\. | ', x)
+  data = [a for a in data if a != '']
+  for i in diag_list:
+    t = re.split(', |_|-|!|\.|\. | ', i)
+    t = [a for a in t if a != '']
+    l = []
+    for d in data:
+      if d in t:
+        l.append(d)
+    if len(l) == len(t):
+      res = listToString(l)
+      diagnosis = []
+      diagnosis.append([])
+      diagnosis[0].append([])
+      diagnosis[0].append(res)
+      print('res is: ',res)
+      return diagnosis
+    
   temp=get_diag_helper(x,query_raw(x))
   diagnosis=[]
   try:
@@ -212,9 +230,9 @@ for tup in reports_to_update:
   
 ########################## remove data from files table ##########################################
 
-sql = "TRUNCATE TABLE files;"
-mycursor.execute(sql)
-mydb.commit()
+#sql = "TRUNCATE TABLE files;"
+#mycursor.execute(sql)
+#mydb.commit()
 
 
 
