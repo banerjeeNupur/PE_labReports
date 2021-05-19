@@ -15,21 +15,18 @@ reports_to_update = mycursor.fetchall()
 mycursor.execute("SELECT * FROM corpus_site")
 corpus = mycursor.fetchall()
 print('length of corpus: ',len(corpus))
+processed_corpus=[tup[1] for tup in corpus]
 
 # biopsy[] stores the site mentioned in biopsy
 mycursor.execute("SELECT * FROM corpus_biopsy")
 biopsy = mycursor.fetchall()
-
+processed_biopsy=[tup[1] for tup in biopsy]
 
 # # ============================================================ the corpus has duplicates. corpus length = 22968. diag_list = 4464.
 # diag[] stores the diagnosis from corpus_diagnosis
 mycursor.execute("SELECT * FROM corpus_diagnosis")
 diag = mycursor.fetchall()
-diag_list = []
-
-for i in tqdm(range(len(diag))):
-  if diag[i][1] not in diag_list:
-    diag_list.append(diag[i][1])
+diag_list=[tup[1] for tup in diag]
     
 print('length of diag is : ',len(diag_list))    
 
@@ -122,7 +119,7 @@ def get_diag_helper(text,query):
     return final
     
 # ============================================================================ if diag not present in the corpus, insert it
-def get_diag(x):
+def get_diag(x):  
   temp=get_diag_helper(x,query_raw(x))
   diagnosis=[]
   try:
@@ -140,8 +137,7 @@ def get_diag(x):
 
 ######################### Iterating over the files table #######################################
 
-processed_corpus=[tup[1] for tup in corpus]
-processed_biopsy=[tup[1] for tup in biopsy]
+
 
 
 for tup in reports_to_update:	

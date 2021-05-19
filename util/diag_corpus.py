@@ -2,6 +2,7 @@ import mysql.connector
 import pickle
 from tqdm import tqdm
 import pandas as pd
+import re
 
 data_8400=pickle.load(open("data_8400.pickle","rb"))
 data_15000=pickle.load(open("(8401-15000)data.pickle","rb"))
@@ -18,10 +19,12 @@ count = 0
 for i in tqdm(range(len(final))):
   if len(final[i])>0:
     print(final[i][1],"==")
-    if final[i][1] in final_data:
+    data = final[i][1].strip()
+    data = re.sub('\s+',' ',data)
+    if data in final_data:
       continue
     else:
-      final_data.append(final[i][1])   
+      final_data.append(data)   
   else:
     count = count + 1
 
