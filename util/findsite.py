@@ -30,13 +30,13 @@ f.close()
 mycursor.execute("SELECT * FROM corpus_diagnosis")
 diag = mycursor.fetchall()
 
-
+print('arrays ready')
 # remove \n \t. (L) and (R) with left, right. converted to lowercase.
 def clean(i):
   data = i.replace("\n"," ").replace("\t"," ").replace('(L)','left').replace('(R)','right').replace('(',' ').replace(')',' ').replace(',',' ')
   data = data.lower()
   return data
-
+print('after clean')
 
 # splitting the data based on final impression or impression.
 # if the report cannot be split, it cannot be processed. We'll be storing them with site - unspecified.
@@ -52,6 +52,7 @@ def final_impression_split(data):
     final_impression = data.split('Final Impression',1)[1]
   return final_impression
 
+print('final imp split')
 # remove note, comment section.
 def remove_note_comment(final_impression):
   if 'note' in final_impression:
@@ -60,6 +61,7 @@ def remove_note_comment(final_impression):
     final_impression = final_impression.split('comment',1)[0]
   return final_impression
 
+print('remove note')
 # remove special symbols
 def remove_special_symb(final_impression):
   final_data=final_impression.replace('–',' ').replace('.',' ').replace(';',' ').replace(':',' ').replace('/',' ')
@@ -70,7 +72,8 @@ def remove_special_symb(final_impression):
 def listToString(s):   
   str1 = " " 
   return (str1.join(s))
-  
+
+print('list to string')
 # match against biopsy. If not found, check tokens in corpus[]
 def get_loc(biopsy,corpus,final_data):
   locData = []
@@ -92,36 +95,65 @@ def get_loc(biopsy,corpus,final_data):
       print('t is :',t)
       locData.append(t)
   return locData
+  
 # # add the biopsy list to database, table : biopsy
 # # check if any of the biopsies are present in the report.
 # # corpus list : load value from site_corpus.
 # if locData length > 0 : report was successfully parsed, i.e, site found. return (report,site) to java.
 # if locData == 0 : return (report,'undefined').
 
-def get_diag(diag,final_data):
-  diagData = [] 
-  s = re.split(', |_|-|!|\.|\. | ', final_data)
-  l = []
-  flag = 0
-  for b in diag:
-#    print('diag is : ',b[1])
-    res = final_data.find(b[1])
-    if res != -1:
-      l.append(b[1])
-      flag = 1
-      break
-  if flag == 0:    
-    for j in s:
-      if j in diag:
-        print('token in corpus: ',j)
-        l.append(j)
-  t = listToString(l)
-  if t != '': 
-    print('t is :',t)
-    diagData.append(t)
+# def get_diag(diag,final_data):
+#   diagData = [] 
+#   s = re.split(', |_|-|!|\.|\. | ', final_data)
+#   l = []
+#   flag = 0
+#   for b in diag:
+# #    print('diag is : ',b[1])
+#     res = final_data.find(b[1])
+#     if res != -1:
+#       l.append(b[1])
+#       flag = 1
+#       break
+#   if flag == 0:    
+#     for j in s:
+#       if j in diag:
+#         print('token in corpus: ',j)
+#         l.append(j)
+#   t = listToString(l)
+#   if t != '': 
+#     print('t is :',t)
+#     diagData.append(t)
 
 
-  return diagData
+#   return diagData
+
+#################Diagnosis Part##########
+import requests
+
+
+def query_raw(text, url="https://bern.korea.ac.kr/plain"):
+    return requests.post(url, data={'sample_text': text}).json()
+def get_diag_helper(text,query):
+    spans=[]
+    try:
+        for i in query['denotations']:
+            spans.append(i['span'])
+        final=[]
+        for s in spans:
+            final.append(text[s['begin']:s['end']])
+    except:
+        return []
+    return final
+def get_diag(x):
+  temp=get_diag_helper(x,query_raw(x))
+  diagnosis=[]
+  try:
+      diagnosis.append((temp[:-1],temp[-1]))
+  except:
+      pass
+  return diagnosis
+  
+
 
 processed_corpus=[tup[1] for tup in corpus]
 processed_biopsy=[tup[1] for tup in biopsy]
@@ -143,37 +175,58 @@ for tup in reports_to_update:
   print('report: ',tup[1])
   final_impression=remove_note_comment(final_impression)
   final_impression=remove_special_symb(final_impression)
+  print('before get location')
   location=get_loc(processed_biopsy,processed_corpus,final_impression)
-  diagnosis=get_diag(diag,final_impression)
-  
+  print('after get location')
+  print('before get diag')
+  diagnosis=get_diag(data)
+  print('after get diag')
   print('final impression: ',type(final_impression))
   print('length of diagnosis : ',len(diagnosis))
-  print('diag is :',diagnosis)
+  if len(diagnosis) > 0:
+    print('other diag is :',diagnosis[0][0])
+    print('len of other diag : ',len(diagnosis[0][0]))
   if len(location)>0 and len(diagnosis)>0:
     print("succ")
-    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
+    sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s, %s, %s,%s)"
     site=location[0]
-    d=diagnosis[0]
-    mycursor.execute(sql,(data,site,d))
+    d=diagnosis[0][1]
+    if len(diagnosis[0][0]) == 0:
+      od = ''
+      sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s,%s)"
+      mycursor.execute(sql,(data,site,d))
+    else:
+      od=''.join(diagnosis[0][0])
+      sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s, %s, %s,%s)"
+      mycursor.execute(sql,(data,site,od,d))
     mydb.commit()
   elif len(location)>0:
-    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
+    sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s, %s, %s,%s)"
     site=location[0]
+    od='undefined'
     d='undefined'
-    mycursor.execute(sql,(data,site,d))
+    mycursor.execute(sql,(data,site,od,d))
     mydb.commit()
   elif len(diagnosis)>0:
-    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s, %s)"
+    sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s, %s, %s,%s)"
     site='undefined'
-    d=diagnosis[0]
-    mycursor.execute(sql,(data,site,d))
+    d=diagnosis[0][1]
+    if len(diagnosis[0][0]) == 0:
+      od = ''
+      sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s,%s)"
+      mycursor.execute(sql,(data,site,d))
+    else:
+      od=''.join(diagnosis[0][0])
+      sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s, %s, %s,%s)"
+      mycursor.execute(sql,(data,site,od,d))
     mydb.commit()
   else:
-    print('Not parssed')
-    sql = "INSERT INTO repos (report,site,diagnosis) VALUES (%s, %s,%s)"
+    print('Not parsed')
+    sql = "INSERT INTO repos (report,site,other_diagnosis,diagnosis) VALUES (%s, %s,%s,%s)"
     site='undefined'
+    od='undefined'
     d='undefined'
-    mycursor.execute(sql,(data,site,d))
+    mycursor.execute(sql,(data,site,od,d))
     mydb.commit()
   
     

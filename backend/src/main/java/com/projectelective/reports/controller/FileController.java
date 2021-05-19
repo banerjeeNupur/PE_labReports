@@ -51,7 +51,7 @@ public class FileController {
     }
 
     @GetMapping("/parse")
-    public ResponseEntity<Integer> parseFiles(){
+    public ResponseEntity<Integer[]> parseFiles(){
         Integer count_initial = siteService.getUndefinedSites();
         Integer diag_initial = siteService.getUndefinedDiag();
 
@@ -64,7 +64,8 @@ public class FileController {
         Integer diag_final = siteService.getUndefinedDiag();
 
         System.out.println("site, diag final -------- : "+count_final+"=="+diag_final);
-        Integer diff = count_final - count_initial;
-        return new ResponseEntity<>(diff,HttpStatus.OK);
+        Integer diff_site = count_final - count_initial;
+        Integer diff_diag = diag_final - diag_initial;
+        return new ResponseEntity<>(new Integer[]{diff_site,diff_diag},HttpStatus.OK);
     }
 }

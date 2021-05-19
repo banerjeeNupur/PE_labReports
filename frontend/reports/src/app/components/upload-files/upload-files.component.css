@@ -3,3 +3,6 @@
     width: 50%;
     margin-top: 45px;
 } 
+#loader{
+    display: none;
+}

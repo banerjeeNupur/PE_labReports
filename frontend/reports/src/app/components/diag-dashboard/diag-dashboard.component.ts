@@ -32,8 +32,12 @@ export class DiagDashboardComponent implements OnInit {
 
   // fetch all the sites
   async listSites(){
+    let load = document.getElementById("diag-loader")
+    load.style.display = "block"
     const response = await this.diagnosisService.getDiagList();
     this.diagnosis = await response._embedded.diagnosisCorpuses;
+    load.style.display = "none"
+    document.getElementById("diag-list").style.display = "block"
     console.log('site length is: ',this.diagnosis.length)
   }
  

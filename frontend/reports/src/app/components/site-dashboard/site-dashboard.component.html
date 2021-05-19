@@ -2,19 +2,29 @@
 
 <div class="container">
     <br><br>
-    <nav class="search_site">
-        <input type="text" class="form-control" name="input_site" [(ngModel)]="input_site" (ngModelChange)="search()"
-            placeholder="Enter site">
-    </nav>
- 
-    <table class="table table-bordered search_site">
-        <tbody>
-            <tr *ngFor="let s of site |  paginate: {itemsPerPage:10, currentPage:p};">
-                <td><a routerLink="/site-reports/{{ s.site }}" (click)="searchRep(s.site)">{{s.site || s.item.site}}</a></td>
-            </tr>
-        </tbody>
-        <pagination-controls (pageChange)="p = $event" ></pagination-controls>
-    </table>
+
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-info" role="status" id="site-loader">
+          <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div id="site-list">
+        <nav class="search_site">
+            <input type="text" class="form-control" name="input_site" [(ngModel)]="input_site" (ngModelChange)="search()"
+                placeholder="Enter site">
+        </nav>
+     
+        <table class="table table-bordered search_site">
+            <tbody>
+                <tr *ngFor="let s of site |  paginate: {itemsPerPage:10, currentPage:p};">
+                    <td><a routerLink="/site-reports/{{ s.site }}" (click)="searchRep(s.site)">{{s.site || s.item.site}}</a></td>
+                </tr>
+            </tbody>
+            <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+        </table>
+    </div>
+    
 </div> 
 
  

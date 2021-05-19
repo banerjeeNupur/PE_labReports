@@ -29,10 +29,15 @@ export class UploadFilesService {
   count:any
   async parseFiles(){
     
+    let load = document.getElementById("loader")
+    load.style.display = "block"
+    console.log('load spinner :',load.style.display)
     await this.http.get('http://localhost:8080/parse').toPromise()
     .then((response) => {
         this.count = response;
         console.log('parsed: ',response)  
+        load.style.display = "none"
+        console.log('load spinner response:',load.style.display)
       }).catch(
         error => {
           console.log('error message: ',error)

@@ -66,13 +66,23 @@ export class UploadFilesComponent implements OnInit {
     this.uploadService.parseFiles().then(
       (response) => {
         console.log('in parse files : ',response)
-        if(response === 0){
-          this.message = 'site detected for all the files!'
-          console.log('site detected for all')
+        if(response[0] === 0 && response[1] == 0){
+          this.message = 'site and diagnosis detected for all the files!'
+          console.log('site and diag detected for all')
           document.getElementById('div_upload_message').style.display = 'block'
         } 
+        else if(response[0] === 0){
+          this.message = 'site detected for all the files! \n Couldn\'t detect diagnosis for ' + response[1] + ' file(s)'
+          console.log('site detected for all')
+          document.getElementById('div_upload_message').style.display = 'block'
+        }
+        else if(response[1] === 0){
+          this.message = 'diagnosis detected for all the files! \n Couldn\'t detect site for ' + response[0] + ' file(s)'
+          console.log('diag detected for all')
+          document.getElementById('div_upload_message').style.display = 'block'
+        }
         else {
-          this.message = 'could not detect site for ' + response + ' file(s)'
+          this.message = 'could not detect site for ' + response[0] + ' file(s) and diagnosis for ' + response[1] + ' file(s)'
           console.log('couldn\'t detect for ', response, ' file(s)')
           document.getElementById('div_upload_message').style.display = 'block'
         }

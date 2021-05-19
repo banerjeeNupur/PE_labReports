@@ -33,9 +33,12 @@ export class SiteDashboardComponent implements OnInit {
 
   // fetch all the sites
   async listSites(){
+    document.getElementById('site-loader').style.display = 'block'
     const response = await this.siteService.getSiteList();
     this.site = await response._embedded.siteCorpuses;
     console.log('site length is: ',this.site.length)
+    document.getElementById('site-loader').style.display = 'none'
+    document.getElementById('site-list').style.display = 'block'
   }
  
   // filter based on user input
