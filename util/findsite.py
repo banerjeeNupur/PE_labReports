@@ -230,9 +230,9 @@ for tup in reports_to_update:
   
 ########################## remove data from files table ##########################################
 
-#sql = "TRUNCATE TABLE files;"
-#mycursor.execute(sql)
-#mydb.commit()
+sql = "TRUNCATE TABLE files;"
+mycursor.execute(sql)
+mydb.commit()
 
 
 
